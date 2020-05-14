@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Domain\CommandSide\CommandHandlers" />
+      <Folder Include="Application" />
       <Folder Include="Domain\CommandSide\Commands" />
       <Folder Include="Domain\QuerySide\Queries" />
     </ItemGroup>
