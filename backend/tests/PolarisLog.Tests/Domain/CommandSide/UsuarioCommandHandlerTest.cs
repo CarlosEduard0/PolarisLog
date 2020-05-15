@@ -15,7 +15,7 @@ using PolarisLog.Infra.Repositories;
 using PolarisLog.Tests.Helpers.Factories;
 using Xunit;
 
-namespace PolarisLog.Tests.Domain.CommandSide.CommandHandlers
+namespace PolarisLog.Tests.Domain.CommandSide
 {
     public class UsuarioCommandHandlerTest
     {
@@ -51,7 +51,7 @@ namespace PolarisLog.Tests.Domain.CommandSide.CommandHandlers
         }
 
         [Fact]
-        public async Task Handler_LancarNotificacaoQuandoCommandForInvalido()
+        public async Task Handler_DeveLancarNotificacaoQuandoCommandForInvalido()
         {
             var command = new AdicionarNovoUsuarioCommand(null, "email@email.com", "senha", "senha");
             var commandHandler = new UsuarioCommandHandler(_mediatorMock.Object, _usuarioRepository);
