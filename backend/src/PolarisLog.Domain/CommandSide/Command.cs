@@ -9,9 +9,6 @@ namespace PolarisLog.Domain.CommandSide
     {
         public ValidationResult ValidationResult { get; set; }
 
-        public virtual Task<bool> EhValido()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract Task<bool> EhValido();
     }
 }
