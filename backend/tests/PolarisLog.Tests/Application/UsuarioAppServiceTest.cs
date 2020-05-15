@@ -22,7 +22,7 @@ namespace PolarisLog.Tests.Application
         [Fact]
         public async Task Adicionar_DeveEnviarCommandParaAdicionarUsuario()
         {
-            var usuario = new Usuario
+            var usuario = new UsuarioViewModel
             {
                 Nome = "nome",
                 Email = "email@email.com",

@@ -19,9 +19,9 @@ namespace PolarisLog.Application.Services
             _notifications = (DomainNotificationHandler) notifications;
         }
 
-        public async Task<List<DomainNotification>> Adicionar(Usuario usuario)
+        public async Task<List<DomainNotification>> Adicionar(UsuarioViewModel usuarioViewModel)
         {
-            var command = new AdicionarNovoUsuarioCommand(usuario.Nome, usuario.Email, usuario.Senha, usuario.SenhaConfirmacao);
+            var command = new AdicionarNovoUsuarioCommand(usuarioViewModel.Nome, usuarioViewModel.Email, usuarioViewModel.Senha, usuarioViewModel.SenhaConfirmacao);
             await _mediator.Send(command);
             return _notifications.ObterNotificacoes();
         }

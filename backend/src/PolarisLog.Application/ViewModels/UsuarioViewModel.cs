@@ -1,6 +1,6 @@
 ﻿namespace PolarisLog.Application.ViewModels
 {
-    public class Usuario
+    public class UsuarioViewModel
     {
         public string Nome { get; set; }
         public string Email { get; set; }

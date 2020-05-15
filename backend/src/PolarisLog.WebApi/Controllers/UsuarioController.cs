@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 using PolarisLog.Application.Interfaces;
 using PolarisLog.Application.ViewModels;
 
@@ -18,16 +18,15 @@ namespace PolarisLog.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Adicionar(Usuario usuario)
+        public async Task<IActionResult> Adicionar(UsuarioViewModel usuarioViewModel)
         {
-            var notifications = await _usuarioAppService.Adicionar(usuario);
-
+            var notifications = await _usuarioAppService.Adicionar(usuarioViewModel);
             if (notifications.Any())
             {
                 return BadRequest(notifications);
             }
             
-            return Ok(usuario);
+            return Ok(usuarioViewModel);
         }
     }
 }

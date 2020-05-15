@@ -7,6 +7,6 @@ namespace PolarisLog.Application.Interfaces
 {
     public interface IUsuarioAppService
     {
-        public Task<List<DomainNotification>> Adicionar(Usuario usuario);
+        public Task<List<DomainNotification>> Adicionar(UsuarioViewModel usuarioViewModel);
     }
 }
