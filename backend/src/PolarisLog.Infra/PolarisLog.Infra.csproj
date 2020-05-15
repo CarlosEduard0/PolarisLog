@@ -5,7 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Repositories" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PolarisLog.Domain\PolarisLog.Domain.csproj" />
     </ItemGroup>
 
 </Project>

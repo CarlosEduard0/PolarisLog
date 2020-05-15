@@ -5,9 +5,9 @@ namespace PolarisLog.Domain.Entities
 {
     public class Usuario : Entity
     {
-        public string Nome { get; }
-        public string Email { get; }
-        public string Senha { get; }
+        public string Nome { get; private set; }
+        public string Email { get; private set; }
+        public string Senha { get; private set; }
 
         public Usuario(string nome, string email, string senha)
         {

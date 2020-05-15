@@ -5,8 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Interfaces" />
-      <Folder Include="Services" />
+      <PackageReference Include="MediatR" Version="8.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PolarisLog.Domain\PolarisLog.Domain.csproj" />
     </ItemGroup>
 
 </Project>
