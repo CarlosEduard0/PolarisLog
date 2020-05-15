@@ -6,11 +6,11 @@ namespace PolarisLog.Domain.CommandSide.Commands.Log
 {
     public class AdicionarNovoLogCommand : Command
     {
-        public Level Level { get; }
+        public Level? Level { get; }
         public string Descricao { get; }
         public string Origem { get; set; }
 
-        public AdicionarNovoLogCommand(Level level, string descricao, string origem)
+        public AdicionarNovoLogCommand(Level? level, string descricao, string origem)
         {
             Level = level;
             Descricao = descricao;

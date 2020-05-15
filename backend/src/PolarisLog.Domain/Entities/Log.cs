@@ -5,13 +5,13 @@ namespace PolarisLog.Domain.Entities
 {
     public class Log : Entity
     {
-        public Level Level { get; private set; }
+        public Level? Level { get; private set; }
         public string Descricao { get; private set; }
         public string Origem { get; private set; }
         public DateTime? ArquivadoEm { get; private set; }
         public DateTime? DeletadoEm { get; private set; }
 
-        public Log(Level level, string descricao, string origem)
+        public Log(Level? level, string descricao, string origem)
         {
             ValidarDescricao(descricao);
             ValidarOrigem(origem);

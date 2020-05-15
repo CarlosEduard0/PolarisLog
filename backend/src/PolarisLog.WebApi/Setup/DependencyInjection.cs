@@ -18,6 +18,10 @@ namespace PolarisLog.WebApi.Setup
             // Usuário
             services.AddScoped<IUsuarioAppService, UsuarioAppService>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            
+            // Log
+            services.AddScoped<ILogAppService, LogAppService>();
+            services.AddScoped<ILogRepository, LogRepository>();
         }
     }
 }
