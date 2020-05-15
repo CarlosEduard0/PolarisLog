@@ -16,12 +16,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application" />
       <Folder Include="Domain\CommandSide\Commands" />
       <Folder Include="Domain\QuerySide\Queries" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\PolarisLog.Application\PolarisLog.Application.csproj" />
       <ProjectReference Include="..\..\src\PolarisLog.Domain\PolarisLog.Domain.csproj" />
       <ProjectReference Include="..\..\src\PolarisLog.Infra\PolarisLog.Infra.csproj" />
     </ItemGroup>
