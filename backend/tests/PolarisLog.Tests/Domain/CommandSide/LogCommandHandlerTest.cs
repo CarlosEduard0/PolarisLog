@@ -177,5 +177,44 @@ namespace PolarisLog.Tests.Domain.CommandSide
             commandVazio.ValidationResult.Errors.Should()
                 .Contain(error => error.ErrorMessage == "Id deve possuir conteúdo");
         }
+
+        [Fact]
+        public async Task HandlerDeletar_DeveAtualizarCampoDeletadoEm()
+        {
+            var log = LogFactory.Create();
+            await _context.Logs.AddAsync(log);
+            await _context.SaveChangesAsync();
+            var command = new DeletarLogCommand(log.Id);
+            var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
+
+            await commandHandler.Handle(command, CancellationToken.None);
+            
+            var logSalvo = await _context.Logs.FirstOrDefaultAsync();
+            logSalvo.DeletadoEm.Should().BeCloseTo(DateTime.Now.ToUniversalTime(), 1000);
+        }
+
+        [Fact]
+        public async Task HandlerDeletar_DeveLancarNotificacaoQuandoLogNaoExistir()
+        {
+            var command = new DeletarLogCommand(Guid.NewGuid());
+            var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
+
+            await commandHandler.Handle(command, CancellationToken.None);
+            
+            _mediatorMock.Verify(mediator => mediator.Publish(It.IsAny<DomainNotification>(), CancellationToken.None));
+        }
+        
+        [Fact]
+        public async Task HandlerDeletar_DeveInvalidarCommandQuandoIdForVazio()
+        {
+            var commandVazio = new DeletarLogCommand(Guid.Empty);
+            var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
+
+            await commandHandler.Handle(commandVazio, CancellationToken.None);
+
+            commandVazio.ValidationResult.IsValid.Should().Be(false);
+            commandVazio.ValidationResult.Errors.Should()
+                .Contain(error => error.ErrorMessage == "Id deve possuir conteúdo");
+        }
     }
 }

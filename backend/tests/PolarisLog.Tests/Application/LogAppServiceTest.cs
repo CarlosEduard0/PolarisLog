@@ -53,6 +53,16 @@ namespace PolarisLog.Tests.Application
         }
         
         [Fact]
+        public async Task Deletar_DeveEnviarCommandDeDeletarLog()
+        {
+            var logAppService = new LogAppService(_mediatorMock.Object);
+
+            await logAppService.Deletar(Guid.NewGuid());
+            
+            _mediatorMock.Verify(mediator => mediator.Send(It.IsAny<DeletarLogCommand>(), CancellationToken.None));
+        }
+        
+        [Fact]
         public async Task ObterTodos_DeveEnviarQueryDeObterTodosOsLogs()
         {
             _mediatorMock
