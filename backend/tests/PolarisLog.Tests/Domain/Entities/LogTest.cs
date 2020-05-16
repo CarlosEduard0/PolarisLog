@@ -52,6 +52,16 @@ namespace PolarisLog.Tests.Domain.Entities
         }
 
         [Fact]
+        public void Arquivar_DeveLancarExcecaoQuandoLogJaEstiverArquivado()
+        {
+            var log = new Log(Level.Verbose, "descrição", "0.0.0.0");
+            log.Arquivar();
+            Action arquivar = () => log.Arquivar();
+
+            arquivar.Should().Throw<DomainException>().WithMessage("Log já foi arquivado");
+        }
+
+        [Fact]
         public void Deletar_DeveAdicionarDeletadoEm()
         {
             var log = new Log(Level.Verbose, "descrição", "0.0.0.0");

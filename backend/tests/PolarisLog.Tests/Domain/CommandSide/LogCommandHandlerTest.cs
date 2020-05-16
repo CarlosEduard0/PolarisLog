@@ -1,4 +1,4 @@
-﻿using System.Security.AccessControl;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -31,7 +31,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         }
 
         [Fact]
-        public async Task Handler_DeveAdicionarLogComLevelDescricaoEOrigem()
+        public async Task HandlerAdicionar_DeveAdicionarLogComLevelDescricaoEOrigem()
         {
             var level = Level.Verbose;
             var descricao = "descrição";
@@ -51,7 +51,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         
 
         [Fact]
-        public async Task Handler_DeveLancarNotificacaoQuandoCommandForInvalido()
+        public async Task HandlerAdicionar_DeveLancarNotificacaoQuandoCommandForInvalido()
         {
             var command = new AdicionarNovoLogCommand(Level.Verbose, null, "0.0.0.0");
             var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
@@ -62,7 +62,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         }
         
         [Fact]
-        public async Task Handler_DeveInvalidarCommandQuandoDescricaoForNullOuVazio()
+        public async Task HandlerAdicionar_DeveInvalidarCommandQuandoDescricaoForNullOuVazio()
         {
             var commandNull = new AdicionarNovoLogCommand(Level.Verbose, null, "0.0.0.0");
             var commandVazio = new AdicionarNovoLogCommand(Level.Verbose, "", "0.0.0.0");
@@ -81,7 +81,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         }
         
         [Fact]
-        public async Task Handler_DeveInvalidarCommandQuandoOrigemForNullOuVazio()
+        public async Task HandlerAdicionar_DeveInvalidarCommandQuandoOrigemForNullOuVazio()
         {
             var commandNull = new AdicionarNovoLogCommand(Level.Verbose, "descrição", null);
             var commandVazio = new AdicionarNovoLogCommand(Level.Verbose, "descrição", "");
@@ -97,6 +97,60 @@ namespace PolarisLog.Tests.Domain.CommandSide
             commandVazio.ValidationResult.IsValid.Should().Be(false);
             commandVazio.ValidationResult.Errors.Should()
                 .Contain(error => error.ErrorMessage == "Origem deve possuir conteúdo");
+        }
+
+        [Fact]
+        public async Task HandlerArquivar_DeveAtualizarCampoArquivadoEm()
+        {
+            var log = new Log(Level.Verbose, "descrição", "0.0.0.0");
+            await _context.Logs.AddAsync(log);
+            await _context.SaveChangesAsync();
+            var command = new ArquivarLogCommand(log.Id);
+            var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
+
+            await commandHandler.Handle(command, CancellationToken.None);
+            
+            var logSalvo = await _context.Logs.FirstOrDefaultAsync();
+            logSalvo.ArquivadoEm.Should().BeCloseTo(DateTime.Now, 1000);
+        }
+
+        [Fact]
+        public async Task HandlerArquivar_DeveLancarNotificacaoQuandoLogJaEstiverArquivado()
+        {
+            var log = new Log(Level.Verbose, "descrição", "0.0.0.0");
+            log.Arquivar();
+            var command = new ArquivarLogCommand(log.Id);
+            var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
+            await _context.Logs.AddAsync(log);
+            await _context.SaveChangesAsync();
+
+            await commandHandler.Handle(command, CancellationToken.None);
+            
+            _mediatorMock.Verify(mediator => mediator.Publish(It.IsAny<DomainNotification>(), CancellationToken.None));
+        }
+
+        [Fact]
+        public async Task HandlerArquivar_DeveLancarNotificacaoQuandoLogNaoExistir()
+        {
+            var command = new ArquivarLogCommand(Guid.NewGuid());
+            var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
+
+            await commandHandler.Handle(command, CancellationToken.None);
+            
+            _mediatorMock.Verify(mediator => mediator.Publish(It.IsAny<DomainNotification>(), CancellationToken.None));
+        }
+        
+        [Fact]
+        public async Task HandlerArquivar_DeveInvalidarCommandQuandoIdForVazio()
+        {
+            var commandVazio = new ArquivarLogCommand(Guid.Empty);
+            var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
+
+            await commandHandler.Handle(commandVazio, CancellationToken.None);
+
+            commandVazio.ValidationResult.IsValid.Should().Be(false);
+            commandVazio.ValidationResult.Errors.Should()
+                .Contain(error => error.ErrorMessage == "Id deve possuir conteúdo");
         }
     }
 }
