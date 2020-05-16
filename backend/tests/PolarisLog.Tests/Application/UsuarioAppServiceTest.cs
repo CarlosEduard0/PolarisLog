@@ -12,7 +12,7 @@ namespace PolarisLog.Tests.Application
 {
     public class UsuarioAppServiceTest
     {
-        public Mock<IMediator> _mediatorMock;
+        private readonly Mock<IMediator> _mediatorMock;
         
         public UsuarioAppServiceTest()
         {
