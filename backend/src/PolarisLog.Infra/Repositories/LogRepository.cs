@@ -18,7 +18,7 @@ namespace PolarisLog.Infra.Repositories
 
         public async Task<Log[]> ObterTodos()
         {
-            return await _context.Logs.ToArrayAsync();
+            return await _context.Logs.Where(log => log.DeletadoEm == null).ToArrayAsync();
         }
 
         public async Task<Log> ObterPorId(Guid id)

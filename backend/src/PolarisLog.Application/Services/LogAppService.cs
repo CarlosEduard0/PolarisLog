@@ -42,5 +42,11 @@ namespace PolarisLog.Application.Services
             var command = new ArquivarLogCommand(id);
             await _mediator.Send(command);
         }
+
+        public async Task Deletar(Guid id)
+        {
+            var command = new DeletarLogCommand(id);
+            await _mediator.Send(command);
+        }
     }
 }

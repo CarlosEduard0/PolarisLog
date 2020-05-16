@@ -12,7 +12,8 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
 {
     public class LogCommandHandler : 
         IRequestHandler<AdicionarNovoLogCommand, Guid>,
-        IRequestHandler<ArquivarLogCommand, Unit>
+        IRequestHandler<ArquivarLogCommand, Unit>,
+        IRequestHandler<DeletarLogCommand, Unit>
     {
         private readonly IMediator _mediator;
         private readonly ILogRepository _logRepository;
@@ -57,6 +58,24 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
             }
             
             log.Arquivar();
+            await _logRepository.Atualizar(log);
+
+            return Unit.Value;
+        }
+        
+        
+        public async Task<Unit> Handle(DeletarLogCommand request, CancellationToken cancellationToken)
+        {
+            if (!await ValidarCommando(request)) return Unit.Value;
+            
+            var log = await _logRepository.ObterPorId(request.Id);
+            if (log == null)
+            {
+                await _mediator.Publish(new DomainNotification("log", "Log não encontrado"));
+                return Unit.Value;
+            }
+            
+            log.Deletar();
             await _logRepository.Atualizar(log);
 
             return Unit.Value;

@@ -9,5 +9,6 @@ namespace PolarisLog.Application.Interfaces
         Task<LogViewModel[]> ObterTodos();
         Task<Guid> Adicionar(LogViewModel logViewModel);
         Task Arquivar(Guid id);
+        Task Deletar(Guid id);
     }
 }
