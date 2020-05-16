@@ -23,6 +23,10 @@ namespace PolarisLog.Domain.Entities
         
         public void Arquivar()
         {
+            if (ArquivadoEm != null)
+            {
+                throw new DomainException("Log já foi arquivado");
+            }
             ArquivadoEm = DateTime.Now;
         }
 

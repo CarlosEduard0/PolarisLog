@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using PolarisLog.Domain.CommandSide.Commands.Log;
@@ -8,7 +9,9 @@ using PolarisLog.Domain.Notifications;
 
 namespace PolarisLog.Domain.CommandSide.CommandHandlers
 {
-    public class LogCommandHandler : IRequestHandler<AdicionarNovoLogCommand>
+    public class LogCommandHandler : 
+        IRequestHandler<AdicionarNovoLogCommand>,
+        IRequestHandler<ArquivarLogCommand>
     {
         private readonly IMediator _mediator;
         private readonly ILogRepository _logRepository;
@@ -25,7 +28,30 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
 
             var log = new Log(request.Level, request.Descricao, request.Origem);
 
-            await _logRepository.Adicionar(log);
+            await _logRepository.Adicionar(log);    
+            return Unit.Value;
+        }
+        
+        public async Task<Unit> Handle(ArquivarLogCommand request, CancellationToken cancellationToken)
+        {
+            if (!await ValidarCommando(request)) return Unit.Value;
+
+            var log = await _logRepository.ObterPorId(request.Id);
+            if (log == null)
+            {
+                await _mediator.Publish(new DomainNotification("log", "Log não encontrado"));
+                return Unit.Value;
+            }
+
+            if (log.ArquivadoEm != null)
+            {
+                await _mediator.Publish(new DomainNotification("log", "Log já foi arquivado"));
+                return Unit.Value;
+            }
+            
+            log.Arquivar();
+            await _logRepository.Atualizar(log);
+
             return Unit.Value;
         }
         
