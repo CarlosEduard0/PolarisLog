@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using PolarisLog.Domain.CommandSide.Commands.Usuario;
@@ -8,7 +9,7 @@ using PolarisLog.Domain.Notifications;
 
 namespace PolarisLog.Domain.CommandSide.CommandHandlers
 {
-    public class UsuarioCommandHandler : IRequestHandler<AdicionarNovoUsuarioCommand>
+    public class UsuarioCommandHandler : IRequestHandler<AdicionarNovoUsuarioCommand, Guid>
     {
         private readonly IMediator _mediator;
         private readonly IUsuarioRepository _usuarioRepository;
@@ -19,18 +20,18 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
             _usuarioRepository = usuarioRepository;
         }
 
-        public async Task<Unit> Handle(AdicionarNovoUsuarioCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AdicionarNovoUsuarioCommand request, CancellationToken cancellationToken)
         {
-            if (!await ValidarCommando(request)) return Unit.Value;
+            if (!await ValidarCommando(request)) return Guid.Empty;
             
             var usuario = new Usuario(request.Nome, request.Email, request.Senha);
 
             await _usuarioRepository.Adicionar(usuario);
             
-            return Unit.Value;
+            return usuario.Id;
         }
 
-        private async Task<bool> ValidarCommando(Command command)
+        private async Task<bool> ValidarCommando<T>(Command<T> command)
         {
             if (await command.EhValido()) return true;
 

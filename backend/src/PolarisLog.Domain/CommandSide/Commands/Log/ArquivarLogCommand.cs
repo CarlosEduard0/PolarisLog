@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MediatR;
 using PolarisLog.Domain.CommandSide.Validations.Log;
 
 namespace PolarisLog.Domain.CommandSide.Commands.Log
 {
-    public class ArquivarLogCommand : Command
+    public class ArquivarLogCommand : Command<Unit>
     {
         public Guid Id { get; }
 

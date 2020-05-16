@@ -10,8 +10,8 @@ using PolarisLog.Domain.Notifications;
 namespace PolarisLog.Domain.CommandSide.CommandHandlers
 {
     public class LogCommandHandler : 
-        IRequestHandler<AdicionarNovoLogCommand>,
-        IRequestHandler<ArquivarLogCommand>
+        IRequestHandler<AdicionarNovoLogCommand, Guid>,
+        IRequestHandler<ArquivarLogCommand, Unit>
     {
         private readonly IMediator _mediator;
         private readonly ILogRepository _logRepository;
@@ -22,14 +22,14 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
             _logRepository = logRepository;
         }
 
-        public async Task<Unit> Handle(AdicionarNovoLogCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AdicionarNovoLogCommand request, CancellationToken cancellationToken)
         {
-            if (!await ValidarCommando(request)) return Unit.Value;
+            if (!await ValidarCommando(request)) return Guid.Empty;
 
             var log = new Log(request.Level, request.Descricao, request.Origem);
 
-            await _logRepository.Adicionar(log);    
-            return Unit.Value;
+            await _logRepository.Adicionar(log);
+            return log.Id;
         }
         
         public async Task<Unit> Handle(ArquivarLogCommand request, CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
             return Unit.Value;
         }
         
-        private async Task<bool> ValidarCommando(Command command)
+        private async Task<bool> ValidarCommando<T>(Command<T> command)
         {
             if (await command.EhValido()) return true;
 

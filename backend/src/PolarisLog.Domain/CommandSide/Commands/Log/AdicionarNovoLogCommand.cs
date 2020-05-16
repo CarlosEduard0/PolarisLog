@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using PolarisLog.Domain.CommandSide.Validations.Log;
 using PolarisLog.Domain.Entities;
 
 namespace PolarisLog.Domain.CommandSide.Commands.Log
 {
-    public class AdicionarNovoLogCommand : Command
+    public class AdicionarNovoLogCommand : Command<Guid>
     {
         public Level? Level { get; }
         public string Descricao { get; }

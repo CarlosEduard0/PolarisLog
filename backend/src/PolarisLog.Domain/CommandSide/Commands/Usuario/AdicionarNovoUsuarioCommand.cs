@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using PolarisLog.Domain.CommandSide.Validations.Usuario;
 
 namespace PolarisLog.Domain.CommandSide.Commands.Usuario
 {
-    public class AdicionarNovoUsuarioCommand : Command
+    public class AdicionarNovoUsuarioCommand : Command<Guid>
     {
         public string Nome { get; }
         public string Email { get; }
