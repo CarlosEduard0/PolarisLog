@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Moq;
@@ -6,7 +7,6 @@ using PolarisLog.Application.Services;
 using PolarisLog.Application.ViewModels;
 using PolarisLog.Domain.CommandSide.Commands.Log;
 using PolarisLog.Domain.Entities;
-using PolarisLog.Domain.Notifications;
 using Xunit;
 
 namespace PolarisLog.Tests.Application
@@ -29,11 +29,21 @@ namespace PolarisLog.Tests.Application
                 Descricao = "descrição",
                 Origem = "0.0.0.0"
             };
-            var logAppService = new LogAppService(_mediatorMock.Object, new DomainNotificationHandler());
+            var logAppService = new LogAppService(_mediatorMock.Object);
 
             await logAppService.Adicionar(logViewModel);
             
             _mediatorMock.Verify(mediator => mediator.Send(It.IsAny<AdicionarNovoLogCommand>(), CancellationToken.None));
+        }
+        
+        [Fact]
+        public async Task Arquivar_DeveEnviarCommandParaArquivarLog()
+        {
+            var logAppService = new LogAppService(_mediatorMock.Object);
+
+            await logAppService.Arquivar(Guid.NewGuid());
+            
+            _mediatorMock.Verify(mediator => mediator.Send(It.IsAny<ArquivarLogCommand>(), CancellationToken.None));
         }
     }
 }
