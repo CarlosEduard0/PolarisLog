@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 
@@ -11,6 +12,11 @@ namespace PolarisLog.Infra.Repositories
         public UsuarioRepository(Context context)
         {
             _context = context;
+        }
+
+        public async Task<Usuario> ObterPorId(Guid id)
+        {
+            return await _context.Usuarios.FindAsync(id);
         }
 
         public async Task<Usuario> Adicionar(Usuario usuario)
