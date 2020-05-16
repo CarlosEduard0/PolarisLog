@@ -10,5 +10,6 @@ namespace PolarisLog.Domain.Interfaces
         Task<Log> ObterPorId(Guid id);
         Task<Log> Adicionar(Log log);
         Task Atualizar(Log log);
+        Task Deletar(Log log);
     }
 }

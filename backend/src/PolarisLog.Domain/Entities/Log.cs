@@ -10,7 +10,6 @@ namespace PolarisLog.Domain.Entities
         public string Descricao { get; private set; }
         public string Origem { get; private set; }
         public DateTime? ArquivadoEm { get; private set; }
-        public DateTime? DeletadoEm { get; private set; }
         
         public Usuario Usuario { get; private set; }
 
@@ -32,11 +31,6 @@ namespace PolarisLog.Domain.Entities
                 throw new DomainException("Log já foi arquivado");
             }
             ArquivadoEm = DateTime.Now.ToUniversalTime();
-        }
-
-        public void Deletar()
-        {
-            DeletadoEm = DateTime.Now.ToUniversalTime();
         }
 
         private void ValidarDescricao(string descricao)

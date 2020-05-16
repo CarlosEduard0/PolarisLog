@@ -75,8 +75,7 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
                 return Unit.Value;
             }
             
-            log.Deletar();
-            await _logRepository.Atualizar(log);
+            await _logRepository.Deletar(log);
 
             return Unit.Value;
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PolarisLog.Domain.Entities;
@@ -18,7 +17,7 @@ namespace PolarisLog.Infra.Repositories
 
         public async Task<Log[]> ObterTodos()
         {
-            return await _context.Logs.Where(log => log.DeletadoEm == null).ToArrayAsync();
+            return await _context.Logs.ToArrayAsync();
         }
 
         public async Task<Log> ObterPorId(Guid id)
@@ -36,6 +35,12 @@ namespace PolarisLog.Infra.Repositories
         public async Task Atualizar(Log log)
         {
             _context.Logs.Update(log);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Deletar(Log log)
+        {
+            _context.Logs.Remove(log);
             await _context.SaveChangesAsync();
         }
     }

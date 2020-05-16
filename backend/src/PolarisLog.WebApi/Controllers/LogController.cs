@@ -73,5 +73,18 @@ namespace PolarisLog.WebApi.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Deletar(string id)
+        {
+            Guid.TryParse(id, out var guid);
+            await _logAppService.Deletar(guid);
+            if (_notificationHandler.TemNotificacao())
+            {
+                return BadRequest(_notificationHandler.ObterNotificacoes());
+            }
+
+            return Ok();
+        }
     }
 }

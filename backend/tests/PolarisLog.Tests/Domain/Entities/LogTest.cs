@@ -61,15 +61,5 @@ namespace PolarisLog.Tests.Domain.Entities
 
             arquivar.Should().Throw<DomainException>().WithMessage("Log já foi arquivado");
         }
-
-        [Fact]
-        public void Deletar_DeveAdicionarDeletadoEm()
-        {
-            var log = LogFactory.Create();
-            
-            log.Deletar();
-
-            log.DeletadoEm.Should().BeCloseTo(DateTime.Now.ToUniversalTime());
-        }
     }
 }

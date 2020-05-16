@@ -179,7 +179,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         }
 
         [Fact]
-        public async Task HandlerDeletar_DeveAtualizarCampoDeletadoEm()
+        public async Task HandlerDeletar_DeveDeletarLog()
         {
             var log = LogFactory.Create();
             await _context.Logs.AddAsync(log);
@@ -189,8 +189,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
 
             await commandHandler.Handle(command, CancellationToken.None);
             
-            var logSalvo = await _context.Logs.FirstOrDefaultAsync();
-            logSalvo.DeletadoEm.Should().BeCloseTo(DateTime.Now.ToUniversalTime(), 1000);
+            (await _context.Logs.ToListAsync()).Should().HaveCount(0);
         }
 
         [Fact]
