@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System;
+using FluentValidation;
 using PolarisLog.Domain.CommandSide.Commands.Log;
 
 namespace PolarisLog.Domain.CommandSide.Validations.Log
@@ -7,6 +8,9 @@ namespace PolarisLog.Domain.CommandSide.Validations.Log
     {
         public AdicionarNovoLogCommandValidation()
         {
+            RuleFor(log => log.UsuarioId)
+                .NotEqual(Guid.Empty).WithMessage("Usuário deve possuir conteúdo");
+            
             RuleFor(log => log.Level)
                 .NotNull().WithMessage("Level deve possuir conteúdo");
 

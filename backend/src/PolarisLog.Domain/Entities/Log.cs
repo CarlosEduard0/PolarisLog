@@ -5,17 +5,21 @@ namespace PolarisLog.Domain.Entities
 {
     public class Log : Entity
     {
+        public Guid UsuarioId { get; private set; }
         public Level? Level { get; private set; }
         public string Descricao { get; private set; }
         public string Origem { get; private set; }
         public DateTime? ArquivadoEm { get; private set; }
         public DateTime? DeletadoEm { get; private set; }
+        
+        public Usuario Usuario { get; private set; }
 
-        public Log(Level? level, string descricao, string origem)
+        public Log(Guid usuarioId, Level? level, string descricao, string origem)
         {
             ValidarDescricao(descricao);
             ValidarOrigem(origem);
-            
+
+            UsuarioId = usuarioId;
             Level = level;
             Descricao = descricao;
             Origem = origem;
@@ -35,7 +39,7 @@ namespace PolarisLog.Domain.Entities
             DeletadoEm = DateTime.Now.ToUniversalTime();
         }
 
-        public void ValidarDescricao(string descricao)
+        private void ValidarDescricao(string descricao)
         {
             if (string.IsNullOrWhiteSpace(descricao))
             {
@@ -43,7 +47,7 @@ namespace PolarisLog.Domain.Entities
             }
         }
 
-        public void ValidarOrigem(string origem)
+        private void ValidarOrigem(string origem)
         {
             if (string.IsNullOrWhiteSpace(origem))
             {

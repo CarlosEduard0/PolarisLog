@@ -15,7 +15,7 @@ namespace PolarisLog.Tests.Domain.Entities
             var level = Level.Verbose;
             var descricao = "descrição";
             var origem = "0.0.0.0";
-            var log = new Log(level, descricao, origem);
+            var log = new Log(Guid.NewGuid(), level, descricao, origem);
             
             log.Level.Should().Be(level);
             log.Descricao.Should().Be(descricao);
@@ -25,8 +25,8 @@ namespace PolarisLog.Tests.Domain.Entities
         [Fact]
         public void Log_DeveLancarExcecaoQuandoDescricaoForNullOuVazia()
         {
-            Action actionNull = () => new Log(Level.Verbose, null, "0.0.0.0");
-            Action actionVazio = () => new Log(Level.Verbose, "", "0.0.0.0");
+            Action actionNull = () => new Log(Guid.NewGuid(), Level.Verbose, null, "0.0.0.0");
+            Action actionVazio = () => new Log(Guid.NewGuid(), Level.Verbose, "", "0.0.0.0");
 
             actionNull.Should().Throw<DomainException>().WithMessage("Descrição deve possuir conteúdo");
             actionVazio.Should().Throw<DomainException>().WithMessage("Descrição deve possuir conteúdo");
@@ -35,8 +35,8 @@ namespace PolarisLog.Tests.Domain.Entities
         [Fact]
         public void Log_DeveLancarExcecaoQuandoOrigemForNullOuVazia()
         {
-            Action actionNull = () => new Log(Level.Verbose, "descrição", null);
-            Action actionVazio = () => new Log(Level.Verbose, "descrição", "");
+            Action actionNull = () => new Log(Guid.NewGuid(), Level.Verbose, "descrição", null);
+            Action actionVazio = () => new Log(Guid.NewGuid(), Level.Verbose, "descrição", "");
 
             actionNull.Should().Throw<DomainException>().WithMessage("Origem deve possuir conteúdo");
             actionVazio.Should().Throw<DomainException>().WithMessage("Origem deve possuir conteúdo");

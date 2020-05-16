@@ -6,6 +6,7 @@ using PolarisLog.Domain.CommandSide.Commands.Log;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 using PolarisLog.Domain.Notifications;
+using PolarisLog.Domain.QuerySide.Queries.Usuario;
 
 namespace PolarisLog.Domain.CommandSide.CommandHandlers
 {
@@ -26,7 +27,13 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
         {
             if (!await ValidarCommando(request)) return Guid.Empty;
 
-            var log = new Log(request.Level, request.Descricao, request.Origem);
+            if (await _mediator.Send(new ObterUsuarioPorIdQuery(request.UsuarioId)) == null)
+            {
+                await _mediator.Publish(new DomainNotification("usuario", "Usuário não encontrado"));
+                return Guid.Empty;
+            }
+            
+            var log = new Log(request.UsuarioId, request.Level, request.Descricao, request.Origem);
 
             await _logRepository.Adicionar(log);
             return log.Id;

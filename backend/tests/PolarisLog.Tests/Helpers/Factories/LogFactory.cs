@@ -1,4 +1,5 @@
-﻿using PolarisLog.Domain.Entities;
+﻿using System;
+using PolarisLog.Domain.Entities;
 
 namespace PolarisLog.Tests.Helpers.Factories
 {
@@ -6,7 +7,7 @@ namespace PolarisLog.Tests.Helpers.Factories
     {
         public static Log Create()
         {
-            return new Log(Level.Verbose, "descrição", "0.0.0.0");
+            return new Log(Guid.NewGuid(), Level.Verbose, "descrição", "0.0.0.0");
         }
     }
 }
