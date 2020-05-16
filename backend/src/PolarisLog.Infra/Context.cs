@@ -14,9 +14,17 @@ namespace PolarisLog.Infra
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuario>().HasKey(usuario => usuario.Id);
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity.HasKey(usuario => usuario.Id);
+                entity.Property(usuario => usuario.CadastradoEm);
+            });
             
-            modelBuilder.Entity<Log>().HasKey(log => log.Id);
+            modelBuilder.Entity<Log>(entity =>
+            {
+                entity.HasKey(log => log.Id);
+                entity.Property(log => log.CadastradoEm);
+            });
             base.OnModelCreating(modelBuilder);
         }
     }

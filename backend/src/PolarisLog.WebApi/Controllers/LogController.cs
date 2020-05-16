@@ -31,7 +31,8 @@ namespace PolarisLog.WebApi.Controllers
             {
                 Level = log.Level.ToString(),
                 Descricao = log.Descricao,
-                Origem = log.Origem
+                Origem = log.Origem,
+                CadastradoEm = log.CadastradoEm.ToLocalTime()
             }); 
             return Ok(logsPayload);
         }

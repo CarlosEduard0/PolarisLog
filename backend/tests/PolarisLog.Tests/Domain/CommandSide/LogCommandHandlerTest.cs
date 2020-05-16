@@ -111,7 +111,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
             await commandHandler.Handle(command, CancellationToken.None);
             
             var logSalvo = await _context.Logs.FirstOrDefaultAsync();
-            logSalvo.ArquivadoEm.Should().BeCloseTo(DateTime.Now, 1000);
+            logSalvo.ArquivadoEm.Should().BeCloseTo(DateTime.Now.ToUniversalTime(), 1000);
         }
 
         [Fact]

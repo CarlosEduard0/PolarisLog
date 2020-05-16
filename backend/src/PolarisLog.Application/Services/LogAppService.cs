@@ -26,7 +26,8 @@ namespace PolarisLog.Application.Services
             {
                 Level = log.Level,
                 Descricao = log.Descricao,
-                Origem = log.Origem
+                Origem = log.Origem,
+                CadastradoEm = log.CadastradoEm
             }).ToArray();
         }
 

@@ -10,7 +10,7 @@ namespace PolarisLog.Domain.Entities
         public Entity()
         {
             Id = Guid.NewGuid();
-            CadastradoEm = DateTime.Now;
+            CadastradoEm = DateTime.Now.ToUniversalTime();
         }
     }
 }

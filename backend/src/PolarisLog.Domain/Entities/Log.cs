@@ -27,12 +27,12 @@ namespace PolarisLog.Domain.Entities
             {
                 throw new DomainException("Log já foi arquivado");
             }
-            ArquivadoEm = DateTime.Now;
+            ArquivadoEm = DateTime.Now.ToUniversalTime();
         }
 
         public void Deletar()
         {
-            DeletadoEm = DateTime.Now;
+            DeletadoEm = DateTime.Now.ToUniversalTime();
         }
 
         public void ValidarDescricao(string descricao)

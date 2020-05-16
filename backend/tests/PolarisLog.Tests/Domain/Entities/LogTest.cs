@@ -48,7 +48,7 @@ namespace PolarisLog.Tests.Domain.Entities
             
             log.Arquivar();
 
-            log.ArquivadoEm.Should().BeCloseTo(DateTime.Now);
+            log.ArquivadoEm.Should().BeCloseTo(DateTime.Now.ToUniversalTime());
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace PolarisLog.Tests.Domain.Entities
             
             log.Deletar();
 
-            log.DeletadoEm.Should().BeCloseTo(DateTime.Now);
+            log.DeletadoEm.Should().BeCloseTo(DateTime.Now.ToUniversalTime());
         }
     }
 }
