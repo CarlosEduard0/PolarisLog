@@ -9,7 +9,7 @@ using PolarisLog.Infra;
 namespace PolarisLog.Infra.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20200516171816_Initial")]
+    [Migration("20200516175641_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,9 @@ namespace PolarisLog.Infra.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ArquivadoEm")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CadastradoEm")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("DeletadoEm")
@@ -48,6 +51,9 @@ namespace PolarisLog.Infra.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CadastradoEm")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")

@@ -12,6 +12,7 @@ namespace PolarisLog.Infra.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CadastradoEm = table.Column<DateTime>(nullable: false),
                     Level = table.Column<int>(nullable: true),
                     Descricao = table.Column<string>(nullable: true),
                     Origem = table.Column<string>(nullable: true),
@@ -28,6 +29,7 @@ namespace PolarisLog.Infra.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CadastradoEm = table.Column<DateTime>(nullable: false),
                     Nome = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Senha = table.Column<string>(nullable: true)

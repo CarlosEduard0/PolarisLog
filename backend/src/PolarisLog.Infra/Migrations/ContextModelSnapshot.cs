@@ -25,6 +25,9 @@ namespace PolarisLog.Infra.Migrations
                     b.Property<DateTime?>("ArquivadoEm")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CadastradoEm")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("DeletadoEm")
                         .HasColumnType("TEXT");
 
@@ -46,6 +49,9 @@ namespace PolarisLog.Infra.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CadastradoEm")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
