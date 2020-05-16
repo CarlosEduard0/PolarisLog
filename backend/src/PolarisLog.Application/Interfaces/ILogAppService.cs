@@ -6,6 +6,7 @@ namespace PolarisLog.Application.Interfaces
 {
     public interface ILogAppService
     {
+        Task<LogViewModel[]> ObterTodos();
         Task<Guid> Adicionar(LogViewModel logViewModel);
         Task Arquivar(Guid id);
     }

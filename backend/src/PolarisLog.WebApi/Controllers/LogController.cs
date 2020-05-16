@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +24,20 @@ namespace PolarisLog.WebApi.Controllers
             _notificationHandler = (DomainNotificationHandler) domainNotificationHandler;
         }
 
+        public async Task<IActionResult> ObterTodos()
+        {
+            var logs = await _logAppService.ObterTodos();
+            var logsPayload = logs.Select(log => new LogPayload
+            {
+                Level = log.Level.ToString(),
+                Descricao = log.Descricao,
+                Origem = log.Origem
+            }); 
+            return Ok(logsPayload);
+        }
+        
         [HttpPost]
-        public async Task<IActionResult> Adicionar(AdicionarLogPayload logPlPayload)
+        public async Task<IActionResult> Adicionar(LogPayload logPlPayload)
         {
             var logViewModel = new LogViewModel
             {

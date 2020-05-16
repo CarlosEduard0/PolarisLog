@@ -1,6 +1,6 @@
 ﻿namespace PolarisLog.WebApi.Payloads
 {
-    public class AdicionarLogPayload
+    public class LogPayload
     {
         public string Level { get; set; }
         public string Descricao { get; set; }

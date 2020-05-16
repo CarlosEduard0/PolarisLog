@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 
@@ -12,6 +14,11 @@ namespace PolarisLog.Infra.Repositories
         public LogRepository(Context context)
         {
             _context = context;
+        }
+
+        public async Task<Log[]> ObterTodos()
+        {
+            return await _context.Logs.ToArrayAsync();
         }
 
         public async Task<Log> ObterPorId(Guid id)
