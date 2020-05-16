@@ -9,7 +9,7 @@ using PolarisLog.Infra;
 namespace PolarisLog.Infra.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20200516163447_Initial")]
+    [Migration("20200516171816_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
