@@ -1,9 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using MediatR;
-using Moq;
-using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 using PolarisLog.Domain.QuerySide.Queries.Log;
 using PolarisLog.Domain.QuerySide.QueryHandlers;
@@ -18,13 +15,11 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
     {
         private readonly Context _context;
         private readonly ILogRepository _logRepository;
-        private readonly Mock<IMediator> _mediatorMock;
 
         public LogQueryHandlerTest()
         {
             _context = ContextFactory.Create();
             _logRepository = new LogRepository(_context);
-            _mediatorMock = new Mock<IMediator>();
         }
 
         [Fact]

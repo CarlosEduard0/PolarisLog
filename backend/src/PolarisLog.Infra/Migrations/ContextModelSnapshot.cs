@@ -40,7 +40,12 @@ namespace PolarisLog.Infra.Migrations
                     b.Property<string>("Origem")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Logs");
                 });
@@ -66,6 +71,15 @@ namespace PolarisLog.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("PolarisLog.Domain.Entities.Log", b =>
+                {
+                    b.HasOne("PolarisLog.Domain.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

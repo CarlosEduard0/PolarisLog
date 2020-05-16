@@ -9,7 +9,7 @@ using PolarisLog.Infra;
 namespace PolarisLog.Infra.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20200516175641_Initial")]
+    [Migration("20200516212507_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,7 +42,12 @@ namespace PolarisLog.Infra.Migrations
                     b.Property<string>("Origem")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Logs");
                 });
@@ -68,6 +73,15 @@ namespace PolarisLog.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("PolarisLog.Domain.Entities.Log", b =>
+                {
+                    b.HasOne("PolarisLog.Domain.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -46,6 +46,9 @@ namespace PolarisLog.WebApi.Controllers
                 Origem = logPlPayload.Origem
             };
 
+            Guid.TryParse(logPlPayload.UsuarioId, out var usuarioId);
+            logViewModel.UsuarioId = usuarioId;
+            
             Enum.TryParse(typeof(Level), logPlPayload.Level, out var level);
             logViewModel.Level = (Level?) level;
             

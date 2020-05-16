@@ -10,6 +10,7 @@ using PolarisLog.Domain.CommandSide.Commands.Log;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 using PolarisLog.Domain.Notifications;
+using PolarisLog.Domain.QuerySide.Queries.Usuario;
 using PolarisLog.Infra;
 using PolarisLog.Infra.Repositories;
 using PolarisLog.Tests.Helpers.Factories;
@@ -36,24 +37,48 @@ namespace PolarisLog.Tests.Domain.CommandSide
             var level = Level.Verbose;
             var descricao = "descrição";
             var origem = "0.0.0.0";
-            var command = new AdicionarNovoLogCommand(level, descricao, origem);
+            
+            var usuario = UsuarioFactory.Create();
+            await _context.Usuarios.AddAsync(usuario);
+            await _context.SaveChangesAsync();
+
+            _mediatorMock
+                .Setup(mediator => mediator.Send(It.IsAny<ObterUsuarioPorIdQuery>(), CancellationToken.None))
+                .Returns(async () => await Task.Run(() => usuario));
+            
+            var command = new AdicionarNovoLogCommand(usuario.Id, level, descricao, origem);
             var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
 
             await commandHandler.Handle(command, CancellationToken.None);
 
             (await _context.Logs.CountAsync()).Should().Be(1);
-            var log = await _context.Logs.FirstOrDefaultAsync();
+            var log = await _context.Logs.Include(l => l.Usuario).FirstOrDefaultAsync();
+            log.Usuario.Should().BeEquivalentTo(usuario);
+            log.UsuarioId.Should().Be(usuario.Id);
             log.Level.Should().Be(level);
             log.Descricao.Should().Be(descricao);
             log.Origem.Should().Be(origem);
         }
-        
-        
+
+        [Fact]
+        public async Task HandlerAdicionar_DeveLancarNotificacaoQuandoUsuarioNaoExistir()
+        {
+            var level = Level.Verbose;
+            var descricao = "descrição";
+            var origem = "0.0.0.0";
+            
+            var command = new AdicionarNovoLogCommand(Guid.NewGuid(), level, descricao, origem);
+            var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
+
+            await commandHandler.Handle(command, CancellationToken.None);
+
+            _mediatorMock.Verify(mediator => mediator.Publish(It.IsAny<DomainNotification>(), CancellationToken.None));
+        }
 
         [Fact]
         public async Task HandlerAdicionar_DeveLancarNotificacaoQuandoCommandForInvalido()
         {
-            var command = new AdicionarNovoLogCommand(Level.Verbose, null, "0.0.0.0");
+            var command = new AdicionarNovoLogCommand(Guid.NewGuid(), Level.Verbose, null, "0.0.0.0");
             var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
 
             await commandHandler.Handle(command, CancellationToken.None);
@@ -64,8 +89,8 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerAdicionar_DeveInvalidarCommandQuandoDescricaoForNullOuVazio()
         {
-            var commandNull = new AdicionarNovoLogCommand(Level.Verbose, null, "0.0.0.0");
-            var commandVazio = new AdicionarNovoLogCommand(Level.Verbose, "", "0.0.0.0");
+            var commandNull = new AdicionarNovoLogCommand(Guid.NewGuid(), Level.Verbose, null, "0.0.0.0");
+            var commandVazio = new AdicionarNovoLogCommand(Guid.NewGuid(), Level.Verbose, "", "0.0.0.0");
             var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
 
             await commandHandler.Handle(commandNull, CancellationToken.None);
@@ -83,8 +108,8 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerAdicionar_DeveInvalidarCommandQuandoOrigemForNullOuVazio()
         {
-            var commandNull = new AdicionarNovoLogCommand(Level.Verbose, "descrição", null);
-            var commandVazio = new AdicionarNovoLogCommand(Level.Verbose, "descrição", "");
+            var commandNull = new AdicionarNovoLogCommand(Guid.NewGuid(), Level.Verbose, "descrição", null);
+            var commandVazio = new AdicionarNovoLogCommand(Guid.NewGuid(), Level.Verbose, "descrição", "");
             var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
 
             await commandHandler.Handle(commandNull, CancellationToken.None);

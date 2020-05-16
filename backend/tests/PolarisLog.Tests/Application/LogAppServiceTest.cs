@@ -18,12 +18,10 @@ namespace PolarisLog.Tests.Application
 {
     public class LogAppServiceTest
     {
-        private readonly Context _context;
         private readonly Mock<IMediator> _mediatorMock;
 
         public LogAppServiceTest()
         {
-            _context = ContextFactory.Create();
             _mediatorMock = new Mock<IMediator>();
         }
         
@@ -32,6 +30,7 @@ namespace PolarisLog.Tests.Application
         {
             var logViewModel = new LogViewModel
             {
+                UsuarioId = Guid.NewGuid(),
                 Level = Level.Verbose,
                 Descricao = "descrição",
                 Origem = "0.0.0.0"
