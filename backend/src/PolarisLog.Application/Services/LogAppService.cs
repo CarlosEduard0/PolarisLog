@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using PolarisLog.Application.Interfaces;
@@ -11,19 +12,22 @@ namespace PolarisLog.Application.Services
     public class LogAppService : ILogAppService
     {
         private readonly IMediator _mediator;
-        private readonly DomainNotificationHandler _notificationHandler;
 
-        public LogAppService(IMediator mediator, INotificationHandler<DomainNotification> notificationHandler)
+        public LogAppService(IMediator mediator)
         {
             _mediator = mediator;
-            _notificationHandler = (DomainNotificationHandler) notificationHandler;
         }
 
-        public async Task<List<DomainNotification>> Adicionar(LogViewModel logViewModel)
+        public async Task<Guid> Adicionar(LogViewModel logViewModel)
         {
             var command = new AdicionarNovoLogCommand(logViewModel.Level, logViewModel.Descricao, logViewModel.Origem);
+            return await _mediator.Send(command);
+        }
+
+        public async Task Arquivar(Guid id)
+        {
+            var command = new ArquivarLogCommand(id);
             await _mediator.Send(command);
-            return _notificationHandler.ObterNotificacoes();
         }
     }
 }
