@@ -102,7 +102,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerArquivar_DeveAtualizarCampoArquivadoEm()
         {
-            var log = new Log(Level.Verbose, "descrição", "0.0.0.0");
+            var log = LogFactory.Create();
             await _context.Logs.AddAsync(log);
             await _context.SaveChangesAsync();
             var command = new ArquivarLogCommand(log.Id);
@@ -117,7 +117,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerArquivar_DeveLancarNotificacaoQuandoLogJaEstiverArquivado()
         {
-            var log = new Log(Level.Verbose, "descrição", "0.0.0.0");
+            var log = LogFactory.Create();
             log.Arquivar();
             var command = new ArquivarLogCommand(log.Id);
             var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);

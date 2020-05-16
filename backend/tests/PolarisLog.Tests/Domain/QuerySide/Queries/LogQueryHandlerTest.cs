@@ -30,8 +30,8 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
         [Fact]
         public async Task HandlerObterTodos_DeveRetornarTodosOsLogsSalvosNoBanco()
         {
-            var log1 = new Log(Level.Verbose, "descrição", "0.0.0.0");
-            var log2 = new Log(Level.Verbose, "descrição", "0.0.0.0");
+            var log1 = LogFactory.Create();
+            var log2 = LogFactory.Create();
             await _context.Logs.AddRangeAsync(log1, log2);
             await _context.SaveChangesAsync();
             

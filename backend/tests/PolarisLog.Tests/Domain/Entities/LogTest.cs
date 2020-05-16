@@ -2,6 +2,7 @@
 using FluentAssertions;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Exceptions;
+using PolarisLog.Tests.Helpers.Factories;
 using Xunit;
 
 namespace PolarisLog.Tests.Domain.Entities
@@ -44,7 +45,7 @@ namespace PolarisLog.Tests.Domain.Entities
         [Fact]
         public void Arquivar_DeveAdicionarArquivadoEm()
         {
-            var log = new Log(Level.Verbose, "descrição", "0.0.0.0");
+            var log = LogFactory.Create();
             
             log.Arquivar();
 
@@ -54,7 +55,7 @@ namespace PolarisLog.Tests.Domain.Entities
         [Fact]
         public void Arquivar_DeveLancarExcecaoQuandoLogJaEstiverArquivado()
         {
-            var log = new Log(Level.Verbose, "descrição", "0.0.0.0");
+            var log = LogFactory.Create();
             log.Arquivar();
             Action arquivar = () => log.Arquivar();
 
@@ -64,7 +65,7 @@ namespace PolarisLog.Tests.Domain.Entities
         [Fact]
         public void Deletar_DeveAdicionarDeletadoEm()
         {
-            var log = new Log(Level.Verbose, "descrição", "0.0.0.0");
+            var log = LogFactory.Create();
             
             log.Deletar();
 

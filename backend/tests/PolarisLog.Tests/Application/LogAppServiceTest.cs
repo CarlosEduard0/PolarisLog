@@ -58,7 +58,7 @@ namespace PolarisLog.Tests.Application
         {
             _mediatorMock
                 .Setup(mediator => mediator.Send(It.IsAny<ObterTodosOsLogsQuery>(), CancellationToken.None))
-                .Returns(async () => await Task.Run(() => new[] {new Log(Level.Verbose, "descrição", "0.0.0.0")}));
+                .Returns(async () => await Task.Run(() => new[] {LogFactory.Create()}));
             var logAppService = new LogAppService(_mediatorMock.Object);
 
             var logs = await logAppService.ObterTodos();
