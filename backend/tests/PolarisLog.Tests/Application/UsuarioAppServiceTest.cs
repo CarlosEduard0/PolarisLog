@@ -29,7 +29,7 @@ namespace PolarisLog.Tests.Application
                 Senha = "senha",
                 SenhaConfirmacao = "senha"
             };
-            var usuarioAppService = new UsuarioAppService(_mediatorMock.Object, new DomainNotificationHandler());
+            var usuarioAppService = new UsuarioAppService(_mediatorMock.Object);
             await usuarioAppService.Adicionar(usuario);
             
             _mediatorMock.Verify(mediator => mediator.Send(It.IsAny<AdicionarNovoUsuarioCommand>(), CancellationToken.None));

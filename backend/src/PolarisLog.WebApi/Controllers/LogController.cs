@@ -12,7 +12,7 @@ using PolarisLog.WebApi.Payloads;
 namespace PolarisLog.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("logs")]
     public class LogController : ControllerBase
     {
         private readonly ILogAppService _logAppService;
@@ -24,6 +24,7 @@ namespace PolarisLog.WebApi.Controllers
             _notificationHandler = (DomainNotificationHandler) domainNotificationHandler;
         }
 
+        [HttpGet]
         public async Task<IActionResult> ObterTodos()
         {
             var logs = await _logAppService.ObterTodos();
@@ -38,18 +39,15 @@ namespace PolarisLog.WebApi.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Adicionar(LogPayload logPlPayload)
+        public async Task<IActionResult> Adicionar(CadastrarLogPayload cadastrarLogPlPayload)
         {
             var logViewModel = new LogViewModel
             {
-                Descricao = logPlPayload.Descricao,
-                Origem = logPlPayload.Origem
+                Descricao = cadastrarLogPlPayload.Descricao,
+                Origem = cadastrarLogPlPayload.Origem
             };
 
-            Guid.TryParse(logPlPayload.UsuarioId, out var usuarioId);
-            logViewModel.UsuarioId = usuarioId;
-            
-            Enum.TryParse(typeof(Level), logPlPayload.Level, out var level);
+            Enum.TryParse(typeof(Level), cadastrarLogPlPayload.Level, out var level);
             logViewModel.Level = (Level?) level;
             
             var id = await _logAppService.Adicionar(logViewModel);

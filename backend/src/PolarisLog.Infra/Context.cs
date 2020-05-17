@@ -24,7 +24,7 @@ namespace PolarisLog.Infra
             {
                 entity.HasKey(log => log.Id);
                 entity.Property(log => log.CadastradoEm);
-                entity.HasOne(log => log.Usuario).WithMany();
+                entity.HasOne(log => log.Usuario);
             });
             base.OnModelCreating(modelBuilder);
         }
