@@ -5,6 +5,6 @@ namespace PolarisLog.Application.Interfaces
 {
     public interface ISessionAppService
     {
-        Task<Guid> Login(string email, string senha);
+        Task<Guid> Logar(string email, string senha);
     }
 }

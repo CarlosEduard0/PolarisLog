@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PolarisLog.Application.Interfaces;
@@ -30,14 +29,15 @@ namespace PolarisLog.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginPayload loginPayload)
         {
-            var userId = await _sessionAppService.Login(loginPayload.Email, loginPayload.Senha);
+            var userId = await _sessionAppService.Logar(loginPayload.Email, loginPayload.Senha);
 
             if (_notificationHandler.TemNotificacao())
             {
                 return BadRequest(_notificationHandler.ObterNotificacoes());
             }
-            
-            return Ok(_tokenService.GenerateToken(userId));
+
+            var token = _tokenService.GenerateToken(userId);
+            return Ok(new {token});
         }
     }
 }

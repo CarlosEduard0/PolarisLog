@@ -4,12 +4,12 @@ using PolarisLog.Domain.CommandSide.Validations.Session;
 
 namespace PolarisLog.Domain.CommandSide.Commands.Session
 {
-    public class LoginCommand : Command<Guid>
+    public class LogarCommand : Command<Guid>
     {
         public string Email { get; }
         public string Senha { get; }
 
-        public LoginCommand(string email, string senha)
+        public LogarCommand(string email, string senha)
         {
             Email = email;
             Senha = senha;
@@ -17,7 +17,7 @@ namespace PolarisLog.Domain.CommandSide.Commands.Session
         
         public override async Task<bool> EhValido()
         {
-            ValidationResult = await new LoginCommandValidation().ValidateAsync(this);
+            ValidationResult = await new LogarCommandValidation().ValidateAsync(this);
             return ValidationResult.IsValid;
         }
     }

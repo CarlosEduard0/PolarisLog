@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PolarisLog.Application.Interfaces;
 using PolarisLog.Application.ViewModels;
@@ -13,6 +14,7 @@ namespace PolarisLog.WebApi.Controllers
 {
     [ApiController]
     [Route("logs")]
+    [Authorize]
     public class LogController : ControllerBase
     {
         private readonly ILogAppService _logAppService;

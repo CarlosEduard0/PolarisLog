@@ -5,7 +5,6 @@ using Moq;
 using PolarisLog.Application.Services;
 using PolarisLog.Application.ViewModels;
 using PolarisLog.Domain.CommandSide.Commands.Usuario;
-using PolarisLog.Domain.Notifications;
 using Xunit;
 
 namespace PolarisLog.Tests.Application

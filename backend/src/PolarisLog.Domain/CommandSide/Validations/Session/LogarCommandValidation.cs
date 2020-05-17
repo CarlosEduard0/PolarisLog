@@ -3,9 +3,9 @@ using PolarisLog.Domain.CommandSide.Commands.Session;
 
 namespace PolarisLog.Domain.CommandSide.Validations.Session
 {
-    public class LoginCommandValidation : AbstractValidator<LoginCommand>
+    public class LogarCommandValidation : AbstractValidator<LogarCommand>
     {
-        public LoginCommandValidation()
+        public LogarCommandValidation()
         {
             RuleFor(command => command.Email)
                 .NotEmpty().WithMessage("E-mail deve possuir conteúdo")

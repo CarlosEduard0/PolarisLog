@@ -15,9 +15,9 @@ namespace PolarisLog.Application.Services
             _mediator = mediator;
         }
 
-        public async Task<Guid> Login(string email, string senha)
+        public async Task<Guid> Logar(string email, string senha)
         {
-            var command = new LoginCommand(email, senha);
+            var command = new LogarCommand(email, senha);
             return await _mediator.Send(command);
         }
     }

@@ -10,7 +10,7 @@ using PolarisLog.Domain.Notifications;
 
 namespace PolarisLog.Domain.CommandSide.CommandHandlers
 {
-    public class SessionCommandHandler : IRequestHandler<LoginCommand, Guid>
+    public class SessionCommandHandler : IRequestHandler<LogarCommand, Guid>
     {
         private readonly IMediator _mediator;
         private readonly IUsuarioRepository _usuarioRepository;
@@ -21,7 +21,7 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
             _usuarioRepository = usuarioRepository;
         }
 
-        public async Task<Guid> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(LogarCommand request, CancellationToken cancellationToken)
         {
             if (!await ValidarCommando(request)) return Guid.Empty;
             
