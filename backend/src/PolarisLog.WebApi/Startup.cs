@@ -30,7 +30,7 @@ namespace PolarisLog.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Context>(options => options.UseSqlite("Data Source=polarislog.db"));
+            services.AddDbContext<Context>(options => options.UseNpgsql(Configuration.GetConnectionString("PolarisLog")));
             
             services.AddControllers();
             services.AddMediatR(AppDomain.CurrentDomain.Load("PolarisLog.Domain"));

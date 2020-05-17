@@ -32,8 +32,7 @@ namespace PolarisLog.Infra.Migrations
                     Level = table.Column<int>(nullable: true),
                     Descricao = table.Column<string>(nullable: true),
                     Origem = table.Column<string>(nullable: true),
-                    ArquivadoEm = table.Column<DateTime>(nullable: true),
-                    DeletadoEm = table.Column<DateTime>(nullable: true)
+                    ArquivadoEm = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
