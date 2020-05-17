@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 
@@ -17,6 +18,11 @@ namespace PolarisLog.Infra.Repositories
         public async Task<Usuario> ObterPorId(Guid id)
         {
             return await _context.Usuarios.FindAsync(id);
+        }
+
+        public async Task<Usuario> ObterPorEmail(string email)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(usuario => usuario.Email == email);
         }
 
         public async Task<Usuario> Adicionar(Usuario usuario)

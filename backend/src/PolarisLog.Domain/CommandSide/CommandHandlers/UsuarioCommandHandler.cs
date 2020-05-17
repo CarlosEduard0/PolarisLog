@@ -23,6 +23,12 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
         public async Task<Guid> Handle(AdicionarNovoUsuarioCommand request, CancellationToken cancellationToken)
         {
             if (!await ValidarCommando(request)) return Guid.Empty;
+
+            if (await _usuarioRepository.ObterPorEmail(request.Email) != null)
+            {
+                await _mediator.Publish(new DomainNotification("usuário", "Já existe um usuário cadastrado com esse email"));
+                return Guid.Empty;
+            }
             
             var usuario = new Usuario(request.Nome, request.Email, request.Senha);
 

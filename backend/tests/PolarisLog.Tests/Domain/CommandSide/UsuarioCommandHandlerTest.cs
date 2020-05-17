@@ -62,6 +62,20 @@ namespace PolarisLog.Tests.Domain.CommandSide
         }
 
         [Fact]
+        public async Task Handler_DeveLancarNotificacaoQuandoJaExistirUsuarioComMesmoEmailCadasdtrado()
+        {
+            var email = "email@email.com";
+            await _context.Usuarios.AddAsync(new Usuario("nome", email, "senha"));
+            await _context.SaveChangesAsync();
+            var command = new AdicionarNovoUsuarioCommand("nome", email, "senha", "senha");
+            var commandHandler = new UsuarioCommandHandler(_mediatorMock.Object, _usuarioRepository);
+
+            await commandHandler.Handle(command, CancellationToken.None);
+            
+            _mediatorMock.Verify(mediator => mediator.Publish(It.IsAny<DomainNotification>(), CancellationToken.None));
+        }
+
+        [Fact]
         public async Task Handler_DeveInvalidarCommandQuandoNomeForNullOuVazio()
         {
             var commandNull = new AdicionarNovoUsuarioCommand(null, "email@email.com", "senha", "senha");
