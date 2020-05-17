@@ -9,14 +9,19 @@ namespace PolarisLog.Domain.Entities
         public string Email { get; private set; }
         public string Senha { get; private set; }
 
+        protected Usuario()
+        {
+        }
+
         public Usuario(string nome, string email, string senha)
         {
             ValidarNome(nome);
             ValidarEmail(email);
             ValidarSenha(senha);
-            
+
             Nome = nome;
             Email = email;
+            Senha = senha;
             Senha = new PasswordHasher<Usuario>().HashPassword(this, senha);
         }
 

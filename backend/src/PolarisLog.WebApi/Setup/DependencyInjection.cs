@@ -5,6 +5,7 @@ using PolarisLog.Application.Services;
 using PolarisLog.Domain.Interfaces;
 using PolarisLog.Domain.Notifications;
 using PolarisLog.Infra.Repositories;
+using PolarisLog.WebApi.Services;
 
 namespace PolarisLog.WebApi.Setup
 {
@@ -15,9 +16,15 @@ namespace PolarisLog.WebApi.Setup
             // Notifications
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
             
+            // Token
+            services.AddScoped<TokenService>();
+            
             // Usuário
             services.AddScoped<IUsuarioAppService, UsuarioAppService>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            
+            // Session
+            services.AddScoped<ISessionAppService, SessionAppService>();
             
             // Log
             services.AddScoped<ILogAppService, LogAppService>();
