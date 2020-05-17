@@ -12,7 +12,7 @@ namespace PolarisLog.Tests.Domain.Entities
         {
             var entity = new Entity();
             entity.Id.Should().NotBeEmpty();
-            entity.CadastradoEm.Should().BeCloseTo(DateTime.Now.ToUniversalTime(), 1000);
+            entity.CadastradoEm.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
     }
 }

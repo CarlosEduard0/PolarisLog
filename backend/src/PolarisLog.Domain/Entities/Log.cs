@@ -30,7 +30,7 @@ namespace PolarisLog.Domain.Entities
             {
                 throw new DomainException("Log já foi arquivado");
             }
-            ArquivadoEm = DateTime.Now.ToUniversalTime();
+            ArquivadoEm = DateTime.UtcNow;
         }
 
         private void ValidarDescricao(string descricao)

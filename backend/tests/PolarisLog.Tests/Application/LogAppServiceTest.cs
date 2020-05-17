@@ -74,7 +74,7 @@ namespace PolarisLog.Tests.Application
             
             _mediatorMock.Verify(mediator => mediator.Send(It.IsAny<ObterTodosOsLogsQuery>(), CancellationToken.None));
             logs.Should().HaveCount(1);
-            logs.First().CadastradoEm.Should().BeCloseTo(DateTime.Now.ToUniversalTime(), 1000);
+            logs.First().CadastradoEm.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
     }
 }

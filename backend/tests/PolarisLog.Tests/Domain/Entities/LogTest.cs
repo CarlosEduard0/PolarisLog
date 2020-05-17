@@ -49,7 +49,7 @@ namespace PolarisLog.Tests.Domain.Entities
             
             log.Arquivar();
 
-            log.ArquivadoEm.Should().BeCloseTo(DateTime.Now.ToUniversalTime());
+            log.ArquivadoEm.Should().BeCloseTo(DateTime.UtcNow);
         }
 
         [Fact]
