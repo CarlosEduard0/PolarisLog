@@ -20,11 +20,7 @@ namespace PolarisLog.WebApi.Setup
             services.AddScoped<TokenService>();
             
             // Usuário
-            services.AddScoped<IUsuarioAppService, UsuarioAppService>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            
-            // Session
-            services.AddScoped<ISessionAppService, SessionAppService>();
             
             // Log
             services.AddScoped<ILogAppService, LogAppService>();

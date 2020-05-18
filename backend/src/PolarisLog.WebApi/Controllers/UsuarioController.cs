@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using MediatR;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using PolarisLog.Application.Interfaces;
-using PolarisLog.Application.ViewModels;
-using PolarisLog.Domain.Notifications;
-using PolarisLog.WebApi.Payloads;
+using PolarisLog.Infra.CrossCutting.Identity.Model;
+using PolarisLog.WebApi.Payloads.Usuario;
+using PolarisLog.WebApi.Services;
 
 namespace PolarisLog.WebApi.Controllers
 {
@@ -13,32 +14,59 @@ namespace PolarisLog.WebApi.Controllers
     [Route("usuarios")]
     public class UsuarioController : ControllerBase
     {
-        private readonly IUsuarioAppService _usuarioAppService;
-        private readonly DomainNotificationHandler _notificationHandler;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly TokenService _tokenService;
+        private readonly IMapper _mapper;
 
-        public UsuarioController(IUsuarioAppService usuarioAppService, INotificationHandler<DomainNotification> notificationHandler)
+        public UsuarioController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            TokenService tokenService,
+            IMapper mapper)
         {
-            _usuarioAppService = usuarioAppService;
-            _notificationHandler = (DomainNotificationHandler) notificationHandler;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         public async Task<IActionResult> Adicionar(CadastrarUsuarioPayload cadastrarUsuarioPayload)
         {
-            var id = await _usuarioAppService.Adicionar(new UsuarioViewModel
+            if (!ModelState.IsValid)
             {
-                Nome = cadastrarUsuarioPayload.Nome,
-                Email = cadastrarUsuarioPayload.Email,
-                Senha = cadastrarUsuarioPayload.Senha,
-                SenhaConfirmacao = cadastrarUsuarioPayload.SenhaConfirmacao
-            });
-            
-            if (_notificationHandler.TemNotificacao())
-            {
-                return BadRequest(_notificationHandler.ObterNotificacoes());
+                return BadRequest(ModelState.Values.SelectMany(entry => entry.Errors).Select(error => error.ErrorMessage));
             }
             
-            return Ok(new {id});
+            var applicationUser = _mapper.Map<ApplicationUser>(cadastrarUsuarioPayload);
+
+            var result = await _userManager.CreateAsync(applicationUser, cadastrarUsuarioPayload.Senha);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors.Select(error => error.Description));
+            }
+            
+            return Ok();
+        }
+
+        [HttpPost("logar")]
+        public async Task<IActionResult> Logar(LogarPayload logarPayload)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values.SelectMany(entry => entry.Errors).Select(error => error.ErrorMessage));
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(logarPayload.Email, logarPayload.Senha, false, true);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new [] {"Email ou senha inválidos"});
+            }
+
+            var user = await _userManager.FindByEmailAsync(logarPayload.Email);
+            var token = _tokenService.GenerateToken(user.Id);
+            return Ok(new {token});
         }
     }
 }

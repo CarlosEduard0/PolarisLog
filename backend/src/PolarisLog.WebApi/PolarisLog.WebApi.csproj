@@ -6,10 +6,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PolarisLog.Application\PolarisLog.Application.csproj" />
-      <ProjectReference Include="..\PolarisLog.Infra\PolarisLog.Infra.csproj" />
+      <ProjectReference Include="..\PolarisLog.Infra.CrossCutting.Identity\PolarisLog.Infra.CrossCutting.Identity.csproj" />
+      <ProjectReference Include="..\PolarisLog.Infra.Data\PolarisLog.Infra.Data.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />

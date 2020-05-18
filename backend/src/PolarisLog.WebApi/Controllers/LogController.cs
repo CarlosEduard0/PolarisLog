@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -51,6 +52,9 @@ namespace PolarisLog.WebApi.Controllers
 
             Enum.TryParse(typeof(Level), cadastrarLogPlPayload.Level, out var level);
             logViewModel.Level = (Level?) level;
+
+            var usuarioId = (User.Identity as ClaimsIdentity)?.FindFirst(ClaimTypes.NameIdentifier).Value;
+            logViewModel.UsuarioId = Guid.Parse(usuarioId);
             
             var id = await _logAppService.Adicionar(logViewModel);
             if (_notificationHandler.TemNotificacao())

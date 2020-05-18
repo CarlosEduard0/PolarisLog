@@ -1,4 +1,4 @@
-﻿using PolarisLog.Domain.Entities;
+﻿﻿using PolarisLog.Domain.Entities;
 
 namespace PolarisLog.Tests.Helpers.Factories
 {
@@ -6,7 +6,7 @@ namespace PolarisLog.Tests.Helpers.Factories
     {
         public static Usuario Create()
         {
-            return new Usuario("nome", "email@email.com", "senha");
+            return new Usuario("nome", "email@email.com");
         }
     }
 }

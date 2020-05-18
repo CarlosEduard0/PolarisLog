@@ -19,17 +19,5 @@ namespace PolarisLog.Infra.Repositories
         {
             return await _context.Usuarios.FindAsync(id);
         }
-
-        public async Task<Usuario> ObterPorEmail(string email)
-        {
-            return await _context.Usuarios.FirstOrDefaultAsync(usuario => usuario.Email == email);
-        }
-
-        public async Task<Usuario> Adicionar(Usuario usuario)
-        {
-            await _context.Usuarios.AddAsync(usuario);
-            await _context.SaveChangesAsync();
-            return usuario;
-        }
     }
 }

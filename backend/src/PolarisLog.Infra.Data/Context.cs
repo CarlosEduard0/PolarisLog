@@ -14,10 +14,12 @@ namespace PolarisLog.Infra
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<Usuario>();
+            
             modelBuilder.Entity<Usuario>(entity =>
             {
+                entity.ToTable("AspNetUsers");
                 entity.HasKey(usuario => usuario.Id);
-                entity.Property(usuario => usuario.CadastradoEm);
             });
             
             modelBuilder.Entity<Log>(entity =>

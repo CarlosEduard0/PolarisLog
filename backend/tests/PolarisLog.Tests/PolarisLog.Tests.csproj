@@ -18,7 +18,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\PolarisLog.Application\PolarisLog.Application.csproj" />
       <ProjectReference Include="..\..\src\PolarisLog.Domain\PolarisLog.Domain.csproj" />
-      <ProjectReference Include="..\..\src\PolarisLog.Infra\PolarisLog.Infra.csproj" />
+      <ProjectReference Include="..\..\src\PolarisLog.Infra.Data\PolarisLog.Infra.Data.csproj" />
     </ItemGroup>
 
 </Project>

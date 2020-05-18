@@ -1,22 +1,22 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PolarisLog.Infra;
+using PolarisLog.Infra.CrossCutting.Identity.Configuration;
+using PolarisLog.Infra.CrossCutting.Identity.Context;
+using PolarisLog.Infra.CrossCutting.Identity.Model;
 using PolarisLog.WebApi.Setup;
 
 namespace PolarisLog.WebApi
@@ -34,11 +34,30 @@ namespace PolarisLog.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Context>(options => options.UseNpgsql(Configuration.GetConnectionString("PolarisLog")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PolarisLog")));
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
             
             services.AddControllers();
             services.AddMediatR(AppDomain.CurrentDomain.Load("PolarisLog.Domain"));
             services.RegisterServices();
+            services.AddAutoMapper(typeof(Startup));
 
+            services.AddIdentityCore<ApplicationUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                .AddErrorDescriber<PortugueseIdentityErrorDescriber>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            });
+            
             var secretKey = Encoding.ASCII.GetBytes(Configuration.GetSection("SecretKey").Value);
             services.AddAuthentication(options =>
             {
@@ -53,7 +72,8 @@ namespace PolarisLog.WebApi
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(secretKey),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ValidateLifetime = true
                 };
             });
             

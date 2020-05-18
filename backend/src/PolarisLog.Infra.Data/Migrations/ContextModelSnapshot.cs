@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PolarisLog.Infra;
@@ -10,10 +9,9 @@ using PolarisLog.Infra;
 namespace PolarisLog.Infra.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20200517124403_Initial")]
-    partial class Initial
+    partial class ContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,21 +56,15 @@ namespace PolarisLog.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CadastradoEm")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
                     b.Property<string>("Nome")
                         .HasColumnType("text");
 
-                    b.Property<string>("Senha")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios");
+                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("PolarisLog.Domain.Entities.Log", b =>
