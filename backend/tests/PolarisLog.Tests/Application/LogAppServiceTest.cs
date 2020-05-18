@@ -65,16 +65,11 @@ namespace PolarisLog.Tests.Application
         [Fact]
         public async Task ObterTodos_DeveEnviarQueryDeObterTodosOsLogs()
         {
-            _mediatorMock
-                .Setup(mediator => mediator.Send(It.IsAny<ObterTodosOsLogsQuery>(), CancellationToken.None))
-                .Returns(async () => await Task.Run(() => new[] {LogFactory.Create()}));
             var logAppService = new LogAppService(_mediatorMock.Object);
-
-            var logs = await logAppService.ObterTodos();
+            
+            await logAppService.ObterTodos(new QueryViewModel { PageNumber = 1, PageSize = 20 });
             
             _mediatorMock.Verify(mediator => mediator.Send(It.IsAny<ObterTodosOsLogsQuery>(), CancellationToken.None));
-            logs.Should().HaveCount(1);
-            logs.First().CadastradoEm.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
     }
 }

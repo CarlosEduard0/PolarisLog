@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PolarisLog.Application.Interfaces;
 using PolarisLog.Application.ViewModels;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Notifications;
 using PolarisLog.WebApi.Payloads;
+using PolarisLog.WebApi.Payloads.Log;
 
 namespace PolarisLog.WebApi.Controllers
 {
@@ -20,25 +22,33 @@ namespace PolarisLog.WebApi.Controllers
     {
         private readonly ILogAppService _logAppService;
         private readonly DomainNotificationHandler _notificationHandler;
+        private readonly IMapper _mapper;
 
-        public LogController(ILogAppService logAppService, INotificationHandler<DomainNotification> domainNotificationHandler)
+        public LogController(ILogAppService logAppService, INotificationHandler<DomainNotification> domainNotificationHandler, IMapper mapper)
         {
             _logAppService = logAppService;
+            _mapper = mapper;
             _notificationHandler = (DomainNotificationHandler) domainNotificationHandler;
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObterTodos()
+        public async Task<IActionResult> ObterTodos([FromQuery] QueryPayload queryPayload)
         {
-            var logs = await _logAppService.ObterTodos();
-            var logsPayload = logs.Select(log => new LogPayload
+            var logs = await _logAppService.ObterTodos(_mapper.Map<QueryViewModel>(queryPayload));
+            
+            var metadata = new
             {
-                Level = log.Level.ToString(),
-                Descricao = log.Descricao,
-                Origem = log.Origem,
-                CadastradoEm = log.CadastradoEm.ToLocalTime()
-            }); 
-            return Ok(logsPayload);
+                logs.TotalCount,
+                logs.PageSize,
+                logs.CurrentPage,
+                logs.TotalPages,
+                logs.HasNext,
+                logs.HasPrevious
+            };
+            
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            
+            return Ok(logs);
         }
         
         [HttpPost]

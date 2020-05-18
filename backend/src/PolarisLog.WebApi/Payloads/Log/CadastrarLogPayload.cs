@@ -1,4 +1,4 @@
-﻿namespace PolarisLog.WebApi.Payloads
+﻿namespace PolarisLog.WebApi.Payloads.Log
 {
     public class CadastrarLogPayload
     {

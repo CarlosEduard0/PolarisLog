@@ -7,7 +7,7 @@ using PolarisLog.Domain.QuerySide.Queries.Log;
 
 namespace PolarisLog.Domain.QuerySide.QueryHandlers
 {
-    public class LogQueryHandler : IRequestHandler<ObterTodosOsLogsQuery, Log[]>
+    public class LogQueryHandler : IRequestHandler<ObterTodosOsLogsQuery, PagedList<Log>>
     {
         private readonly ILogRepository _logRepository;
 
@@ -16,9 +16,9 @@ namespace PolarisLog.Domain.QuerySide.QueryHandlers
             _logRepository = logRepository;
         }
 
-        public async Task<Log[]> Handle(ObterTodosOsLogsQuery request, CancellationToken cancellationToken)
+        public Task<PagedList<Log>> Handle(ObterTodosOsLogsQuery request, CancellationToken cancellationToken)
         {
-            return await _logRepository.ObterTodos();
+            return Task.FromResult(_logRepository.ObterTodos(request.PageNumber, request.PageSize));
         }
     }
 }

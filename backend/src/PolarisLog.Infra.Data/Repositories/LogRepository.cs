@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
+using PolarisLog.Domain.QuerySide;
 
 namespace PolarisLog.Infra.Repositories
 {
@@ -15,9 +16,9 @@ namespace PolarisLog.Infra.Repositories
             _context = context;
         }
 
-        public async Task<Log[]> ObterTodos()
+        public PagedList<Log> ObterTodos(int pageNumber, int pageSize)
         {
-            return await _context.Logs.ToArrayAsync();
+            return PagedList<Log>.ToPagedList(_context.Logs.AsNoTracking(), pageNumber, pageSize);
         }
 
         public async Task<Log> ObterPorId(Guid id)

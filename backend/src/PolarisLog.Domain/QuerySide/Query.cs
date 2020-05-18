@@ -1,13 +1,29 @@
-﻿using System.Threading.Tasks;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using MediatR;
 
 namespace PolarisLog.Domain.QuerySide
 {
     public abstract class Query<T> : IRequest<T>
     {
-        public ValidationResult ValidationResult { get; set; }
+        private const int MaxPageSize = 20;
+        public int PageNumber { get; }
 
-        public abstract Task<bool> EhValido();
+        private int _pageSize = 20;
+        public int PageSize { 
+            get => _pageSize;
+            set => _pageSize = value > MaxPageSize ? value : _pageSize;
+        }
+
+        protected Query()
+        {
+        }
+        
+        protected Query(int pageNumber, int pageSize)
+        {
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
+        
+        public ValidationResult ValidationResult { get; set; }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using PolarisLog.Application.Interfaces;
 using PolarisLog.Application.ViewModels;
 using PolarisLog.Domain.CommandSide.Commands.Log;
+using PolarisLog.Domain.Entities;
+using PolarisLog.Domain.QuerySide;
 using PolarisLog.Domain.QuerySide.Queries.Log;
 
 namespace PolarisLog.Application.Services
@@ -18,17 +19,10 @@ namespace PolarisLog.Application.Services
             _mediator = mediator;
         }
 
-        public async Task<LogViewModel[]> ObterTodos()
+        public async Task<PagedList<Log>> ObterTodos(QueryViewModel queryViewModel)
         {
-            var query = new ObterTodosOsLogsQuery();
-            var logs = await _mediator.Send(query);
-            return logs.Select(log => new LogViewModel
-            {
-                Level = log.Level,
-                Descricao = log.Descricao,
-                Origem = log.Origem,
-                CadastradoEm = log.CadastradoEm
-            }).ToArray();
+            var query = new ObterTodosOsLogsQuery(queryViewModel.PageNumber, queryViewModel.PageSize);
+            return await _mediator.Send(query);
         }
 
         public async Task<Guid> Adicionar(LogViewModel logViewModel)

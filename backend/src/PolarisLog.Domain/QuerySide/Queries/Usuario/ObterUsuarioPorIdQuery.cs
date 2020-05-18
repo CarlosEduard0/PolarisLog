@@ -13,7 +13,7 @@ namespace PolarisLog.Domain.QuerySide.Queries.Usuario
             Id = id;
         }
 
-        public override async Task<bool> EhValido()
+        public virtual async Task<bool> EhValido()
         {
             ValidationResult = await new ObterUsuarioPorIdQueryValidation().ValidateAsync(this);
             return ValidationResult.IsValid;
