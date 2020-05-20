@@ -32,9 +32,9 @@ namespace PolarisLog.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObterTodos([FromQuery] QueryPayload queryPayload)
+        public async Task<IActionResult> ObterTodos([FromQuery] LogQueryPayload logQueryPayload)
         {
-            var logs = await _logAppService.ObterTodos(_mapper.Map<QueryViewModel>(queryPayload));
+            var logs = await _logAppService.ObterTodos(_mapper.Map<LogQueryViewModel>(logQueryPayload));
             
             var metadata = new
             {

@@ -30,7 +30,7 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
             await _context.Logs.AddRangeAsync(log1, log2);
             await _context.SaveChangesAsync();
             
-            var query = new ObterTodosOsLogsQuery();
+            var query = new ObterTodosOsLogsQuery(1, 20, null, null);
             var queryHandler = new LogQueryHandler(_logRepository);
 
             var logs = await queryHandler.Handle(query, CancellationToken.None);

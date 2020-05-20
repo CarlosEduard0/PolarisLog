@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentAssertions;
 using MediatR;
 using Moq;
 using PolarisLog.Application.Services;
@@ -10,8 +8,6 @@ using PolarisLog.Application.ViewModels;
 using PolarisLog.Domain.CommandSide.Commands.Log;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.QuerySide.Queries.Log;
-using PolarisLog.Infra;
-using PolarisLog.Tests.Helpers.Factories;
 using Xunit;
 
 namespace PolarisLog.Tests.Application
@@ -67,7 +63,7 @@ namespace PolarisLog.Tests.Application
         {
             var logAppService = new LogAppService(_mediatorMock.Object);
             
-            await logAppService.ObterTodos(new QueryViewModel { PageNumber = 1, PageSize = 20 });
+            await logAppService.ObterTodos(new LogQueryViewModel { PageNumber = 1, PageSize = 20, Origem = null, Descricao = null});
             
             _mediatorMock.Verify(mediator => mediator.Send(It.IsAny<ObterTodosOsLogsQuery>(), CancellationToken.None));
         }

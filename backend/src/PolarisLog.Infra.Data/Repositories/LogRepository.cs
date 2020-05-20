@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 using PolarisLog.Domain.QuerySide;
@@ -16,9 +19,24 @@ namespace PolarisLog.Infra.Repositories
             _context = context;
         }
 
-        public PagedList<Log> ObterTodos(int pageNumber, int pageSize)
+        public PagedList<Log> ObterTodos(
+            int pageNumber,
+            int pageSize,
+            Expression<Func<Log, bool>> predicate = null,
+            Func<IQueryable<Log>, IOrderedQueryable<Log>> orderBy = null)
         {
-            return PagedList<Log>.ToPagedList(_context.Logs.AsNoTracking(), pageNumber, pageSize);
+            var query = _context.Logs.AsNoTracking();
+            query = query.Where(log => log.Origem == null);
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+            return PagedList<Log>.ToPagedList(query, pageNumber, pageSize);
         }
 
         public async Task<Log> ObterPorId(Guid id)

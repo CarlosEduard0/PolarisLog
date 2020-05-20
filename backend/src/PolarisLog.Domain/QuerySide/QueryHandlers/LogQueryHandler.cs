@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using PolarisLog.Domain.Entities;
@@ -18,7 +20,10 @@ namespace PolarisLog.Domain.QuerySide.QueryHandlers
 
         public Task<PagedList<Log>> Handle(ObterTodosOsLogsQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_logRepository.ObterTodos(request.PageNumber, request.PageSize));
+            Expression<Func<Log, bool>> filtro = log =>
+                (log.Origem.Contains(request.Origem) || string.IsNullOrWhiteSpace(request.Origem)) &&
+                (log.Descricao.Contains(request.Descricao) || string.IsNullOrWhiteSpace(request.Descricao));
+            return Task.FromResult(_logRepository.ObterTodos(request.PageNumber, request.PageSize, filtro));
         }
     }
 }

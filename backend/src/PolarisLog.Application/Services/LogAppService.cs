@@ -19,9 +19,13 @@ namespace PolarisLog.Application.Services
             _mediator = mediator;
         }
 
-        public async Task<PagedList<Log>> ObterTodos(QueryViewModel queryViewModel)
+        public async Task<PagedList<Log>> ObterTodos(LogQueryViewModel logQueryViewModel)
         {
-            var query = new ObterTodosOsLogsQuery(queryViewModel.PageNumber, queryViewModel.PageSize);
+            var query = new ObterTodosOsLogsQuery(
+                logQueryViewModel.PageNumber,
+                logQueryViewModel.PageSize,
+                logQueryViewModel.Origem,
+                logQueryViewModel.Descricao);
             return await _mediator.Send(query);
         }
 
