@@ -10,14 +10,13 @@ using PolarisLog.Application.Interfaces;
 using PolarisLog.Application.ViewModels;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Notifications;
-using PolarisLog.WebApi.Payloads;
 using PolarisLog.WebApi.Payloads.Log;
 
 namespace PolarisLog.WebApi.Controllers
 {
-    [ApiController]
-    [Route("logs")]
     [Authorize]
+    [ApiController]
+    [Route("Logs")]
     public class LogController : ControllerBase
     {
         private readonly ILogAppService _logAppService;
@@ -52,17 +51,9 @@ namespace PolarisLog.WebApi.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Adicionar(CadastrarLogPayload cadastrarLogPlPayload)
+        public async Task<IActionResult> Adicionar(CadastrarLogPayload cadastrarLogPayload)
         {
-            var logViewModel = new LogViewModel
-            {
-                Descricao = cadastrarLogPlPayload.Descricao,
-                Origem = cadastrarLogPlPayload.Origem
-            };
-
-            Enum.TryParse(typeof(Level), cadastrarLogPlPayload.Level, out var level);
-            logViewModel.Level = (Level?) level;
-
+            var logViewModel = _mapper.Map<LogViewModel>(cadastrarLogPayload);
             var usuarioId = (User.Identity as ClaimsIdentity)?.FindFirst(ClaimTypes.NameIdentifier).Value;
             logViewModel.UsuarioId = Guid.Parse(usuarioId);
             
@@ -75,7 +66,7 @@ namespace PolarisLog.WebApi.Controllers
             return Ok(new {id});
         }
 
-        [HttpPost("arquivar/{id}")]
+        [HttpPost("Arquivar/{id}")]
         public async Task<IActionResult> Arquivar(string id)
         {
             Guid.TryParse(id, out var guid);

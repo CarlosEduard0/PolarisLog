@@ -10,7 +10,7 @@ using PolarisLog.Infra.CrossCutting.Identity.Context;
 namespace PolarisLog.Infra.CrossCutting.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200518040017_Identity")]
+    [Migration("20200520114824_Identity")]
     partial class Identity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

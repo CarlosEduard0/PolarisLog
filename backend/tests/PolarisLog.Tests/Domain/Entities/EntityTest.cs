@@ -1,5 +1,4 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using PolarisLog.Domain.Entities;
 using Xunit;
 
@@ -12,7 +11,6 @@ namespace PolarisLog.Tests.Domain.Entities
         {
             var entity = new Entity();
             entity.Id.Should().NotBeEmpty();
-            entity.CadastradoEm.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
     }
 }

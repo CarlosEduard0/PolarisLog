@@ -11,9 +11,15 @@ namespace PolarisLog.Domain.CommandSide.Validations.Log
             RuleFor(log => log.UsuarioId)
                 .NotEqual(Guid.Empty).WithMessage("Usuário deve possuir conteúdo");
             
-            RuleFor(log => log.Level)
-                .NotNull().WithMessage("Level deve possuir conteúdo");
-
+            RuleFor(log => log.AmbienteId)
+                .NotEqual(Guid.Empty).WithMessage("Ambiente deve possuir conteúdo");
+            
+            RuleFor(log => log.NivelId)
+                .NotEqual(Guid.Empty).WithMessage("Nível deve possuir conteúdo");
+            
+            RuleFor(log => log.Titulo)
+                .NotEmpty().WithMessage("Título deve possuir conteúdo");
+            
             RuleFor(log => log.Descricao)
                 .NotEmpty().WithMessage("Descrição deve possuir conteúdo");
 

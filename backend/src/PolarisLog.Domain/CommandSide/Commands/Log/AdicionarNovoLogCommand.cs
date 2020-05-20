@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Threading.Tasks;
 using PolarisLog.Domain.CommandSide.Validations.Log;
-using PolarisLog.Domain.Entities;
 
 namespace PolarisLog.Domain.CommandSide.Commands.Log
 {
     public class AdicionarNovoLogCommand : Command<Guid>
     {
         public Guid UsuarioId { get; }
-        public Level? Level { get; }
+        public Guid AmbienteId { get; }
+        public Guid NivelId { get; }
+        public string Titulo { get; }
         public string Descricao { get; }
         public string Origem { get; set; }
 
-        public AdicionarNovoLogCommand(Guid usuarioId, Level? level, string descricao, string origem)
+        public AdicionarNovoLogCommand(Guid usuarioId, Guid ambienteId, Guid nivelId, string titulo,  string descricao, string origem)
         {
             UsuarioId = usuarioId;
-            Level = level;
+            AmbienteId = ambienteId;
+            NivelId = nivelId;
+            Titulo = titulo;
             Descricao = descricao;
             Origem = origem;
         }

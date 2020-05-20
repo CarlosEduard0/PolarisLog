@@ -7,7 +7,7 @@ namespace PolarisLog.Tests.Helpers.Factories
     {
         public static Log Create()
         {
-            return new Log(Guid.NewGuid(), Level.Verbose, "descrição", "0.0.0.0");
+            return new Log(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "título", "descrição", "0.0.0.0");
         }
     }
 }

@@ -6,6 +6,8 @@ using PolarisLog.Domain.CommandSide.Commands.Log;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 using PolarisLog.Domain.Notifications;
+using PolarisLog.Domain.QuerySide.Queries.Ambiente;
+using PolarisLog.Domain.QuerySide.Queries.Nivel;
 using PolarisLog.Domain.QuerySide.Queries.Usuario;
 
 namespace PolarisLog.Domain.CommandSide.CommandHandlers
@@ -34,9 +36,22 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
                 return Guid.Empty;
             }
             
-            var log = new Log(request.UsuarioId, request.Level, request.Descricao, request.Origem);
+            if (await _mediator.Send(new ObterAmbientePorIdQuery(request.AmbienteId)) == null)
+            {
+                await _mediator.Publish(new DomainNotification("ambiente", "Ambiente não encontrado"));
+                return Guid.Empty;
+            }
+            
+            if (await _mediator.Send(new ObterNivelPorIdQuery(request.NivelId)) == null)
+            {
+                await _mediator.Publish(new DomainNotification("nivel", "Nível não encontrado"));
+                return Guid.Empty;
+            }
+            
+            var log = new Log(request.UsuarioId, request.AmbienteId, request.NivelId, request.Titulo, request.Descricao, request.Origem);
 
             await _logRepository.Adicionar(log);
+            
             return log.Id;
         }
         

@@ -31,7 +31,8 @@ namespace PolarisLog.Application.Services
 
         public async Task<Guid> Adicionar(LogViewModel logViewModel)
         {
-            var command = new AdicionarNovoLogCommand(logViewModel.UsuarioId, logViewModel.Level, logViewModel.Descricao, logViewModel.Origem);
+            var command = new AdicionarNovoLogCommand(logViewModel.UsuarioId, logViewModel.AmbienteId,
+                logViewModel.NivelId, logViewModel.Titulo, logViewModel.Descricao, logViewModel.Origem);
             return await _mediator.Send(command);
         }
 

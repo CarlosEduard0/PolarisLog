@@ -3,7 +3,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 using PolarisLog.Domain.QuerySide;
@@ -22,20 +21,18 @@ namespace PolarisLog.Infra.Repositories
         public PagedList<Log> ObterTodos(
             int pageNumber,
             int pageSize,
-            Expression<Func<Log, bool>> predicate = null,
-            Func<IQueryable<Log>, IOrderedQueryable<Log>> orderBy = null)
+            Expression<Func<Log, bool>> predicate = null)
         {
-            var query = _context.Logs.AsNoTracking();
-            query = query.Where(log => log.Origem == null);
+            var query = _context.Logs
+                .Include(log => log.Usuario)
+                .Include(log => log.Ambiente)
+                .Include(log => log.Nivel)
+                .AsNoTracking();
             if (predicate != null)
             {
                 query = query.Where(predicate);
             }
 
-            if (orderBy != null)
-            {
-                query = orderBy(query);
-            }
             return PagedList<Log>.ToPagedList(query, pageNumber, pageSize);
         }
 

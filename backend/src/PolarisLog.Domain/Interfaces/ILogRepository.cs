@@ -12,8 +12,7 @@ namespace PolarisLog.Domain.Interfaces
         PagedList<Log> ObterTodos(
             int pageNumber,
             int pageSize,
-            Expression<Func<Log, bool>> predicate = null,
-            Func<IQueryable<Log>, IOrderedQueryable<Log>> orderBy = null);
+            Expression<Func<Log, bool>> predicate = null);
         Task<Log> ObterPorId(Guid id);
         Task<Log> Adicionar(Log log);
         Task Atualizar(Log log);

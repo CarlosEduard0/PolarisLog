@@ -14,7 +14,9 @@ namespace PolarisLog.WebApi.AutoMapper
             CreateMap<CadastrarUsuarioPayload, ApplicationUser>()
                 .ForMember(app => app.UserName, mf => mf.MapFrom(pay => pay.Email))
                 .ForMember(app => app.Email, mf => mf.MapFrom(pay => pay.Email));
-            
+
+            CreateMap<CadastrarLogPayload, LogViewModel>();
+            CreateMap<QueryPayload, QueryViewModel>();
             CreateMap<LogQueryPayload, LogQueryViewModel>();
         }
     }

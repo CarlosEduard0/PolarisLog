@@ -22,6 +22,14 @@ namespace PolarisLog.WebApi.Setup
             // Usuário
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             
+            // Ambiente
+            services.AddScoped<IAmbienteAppService, AmbienteAppService>();
+            services.AddScoped<IAmbienteRepository, AmbienteRepository>();
+            
+            // Nivel
+            services.AddScoped<INivelAppService, NivelAppService>();
+            services.AddScoped<INivelRepository, NivelRepository>();
+            
             // Log
             services.AddScoped<ILogAppService, LogAppService>();
             services.AddScoped<ILogRepository, LogRepository>();

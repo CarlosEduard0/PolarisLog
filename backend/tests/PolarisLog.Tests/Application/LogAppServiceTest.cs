@@ -27,7 +27,9 @@ namespace PolarisLog.Tests.Application
             var logViewModel = new LogViewModel
             {
                 UsuarioId = Guid.NewGuid(),
-                Level = Level.Verbose,
+                AmbienteId = Guid.NewGuid(),
+                NivelId = Guid.NewGuid(),
+                Titulo = "título",
                 Descricao = "descrição",
                 Origem = "0.0.0.0"
             };
