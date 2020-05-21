@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using FluentAssertions;
 using PolarisLog.Domain.Notifications;
@@ -21,8 +22,7 @@ namespace PolarisLog.Tests.Domain.Notifications
             notificationHandler.TemNotificacao().Should().Be(true);
             notificationHandler.ObterNotificacoes().Should().HaveCount(1);
             var notificacaoLancada = notificationHandler.ObterNotificacoes().First();
-            notificacaoLancada.Key.Should().Be(chave);
-            notificacaoLancada.Value.Should().Be(valor);
+            notificacaoLancada.Should().NotBeEmpty();
         }
     }
 }

@@ -21,9 +21,9 @@ namespace PolarisLog.Domain.Notifications
             return Task.CompletedTask;
         }
 
-        public List<DomainNotification> ObterNotificacoes()
+        public List<string> ObterNotificacoes()
         {
-            return _notifications;
+            return _notifications.Select(notifications => notifications.Value).ToList();
         }
         
         public bool TemNotificacao()

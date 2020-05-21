@@ -5,7 +5,7 @@ using MediatR;
 
 namespace PolarisLog.Domain.CommandSide
 {
-    public abstract class Command : IRequest
+    public abstract class Command<T> : IRequest<T>
     {
         public ValidationResult ValidationResult { get; set; }
 
