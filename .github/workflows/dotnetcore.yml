@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -23,3 +21,17 @@ jobs:
       run: dotnet build ./backend --configuration Release --no-restore
     - name: Test
       run: dotnet test ./backend --no-restore --verbosity normal
+      
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker login
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build PolarisLog API
+      run: docker build -t carloseduard0/polarislog-api ./backend
+    - name: Docker push
+      run: docker push carloseduard0/polarislog-api
