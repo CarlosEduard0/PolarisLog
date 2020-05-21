@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PolarisLog.Application.Interfaces;
 using PolarisLog.Application.ViewModels;
-using PolarisLog.WebApi.Payloads.Log;
+using PolarisLog.WebApi.Payloads;
 
 namespace PolarisLog.WebApi.Controllers
 {
@@ -24,9 +24,9 @@ namespace PolarisLog.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObterTodos([FromQuery] LogQueryPayload logQueryPayload)
+        public async Task<IActionResult> ObterTodos([FromQuery] QueryPayload queryPayload)
         {
-            var ambientes = await _ambienteAppService.ObterTodos(_mapper.Map<LogQueryViewModel>(logQueryPayload));
+            var ambientes = await _ambienteAppService.ObterTodos(_mapper.Map<QueryViewModel>(queryPayload));
             
             var metadata = new
             {

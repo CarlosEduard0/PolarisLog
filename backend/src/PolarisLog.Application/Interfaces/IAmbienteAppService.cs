@@ -7,6 +7,6 @@ namespace PolarisLog.Application.Interfaces
 {
     public interface IAmbienteAppService
     {
-        Task<PagedList<Ambiente>> ObterTodos(QueryViewModel logQueryViewModel);
+        Task<PagedList<Ambiente>> ObterTodos(QueryViewModel queryViewModel);
     }
 }
