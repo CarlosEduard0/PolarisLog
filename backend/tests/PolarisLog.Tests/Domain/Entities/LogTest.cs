@@ -26,6 +26,7 @@ namespace PolarisLog.Tests.Domain.Entities
             log.Titulo.Should().Be(titulo);
             log.Descricao.Should().Be(descricao);
             log.Origem.Should().Be(origem);
+            log.CadastradoEm.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
 
         [Fact]

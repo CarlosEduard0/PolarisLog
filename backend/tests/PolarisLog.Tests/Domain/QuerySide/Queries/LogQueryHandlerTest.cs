@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 using PolarisLog.Domain.QuerySide.Queries.Log;
 using PolarisLog.Domain.QuerySide.QueryHandlers;
@@ -25,9 +26,12 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
         [Fact]
         public async Task HandlerObterTodos_DeveRetornarTodosOsLogsSalvosNoBanco()
         {
-            var log1 = LogFactory.Create();
-            var log2 = LogFactory.Create();
-            await _context.Logs.AddRangeAsync(log1, log2);
+            var usuario = UsuarioFactory.Create();
+            var ambiente = AmbienteFactory.Create();
+            var nivel = NivelFactory.Create();
+            var log1 = new Log(usuario.Id, ambiente.Id, nivel.Id, "título", "descrição", "0.0.0.0");
+            var log2 = new Log(usuario.Id, ambiente.Id, nivel.Id, "título", "descrição", "0.0.0.0");
+            await _context.AddRangeAsync(usuario, ambiente, nivel, log1, log2);
             await _context.SaveChangesAsync();
             
             var query = new ObterTodosOsLogsQuery(1, 20, null, null);
