@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  polarislog:
+    build: ./backend
+    env_file:
+      - .env
+    ports:
+      - 5000:80
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:alpine
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
+
+volumes:
+  postgres_data:
