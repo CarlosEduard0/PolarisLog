@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using PolarisLog.Infra;
+using PolarisLog.Infra.CrossCutting.Identity.Context;
+using PolarisLog.WebApi.Extensions;
 
 namespace PolarisLog.WebApi
 {
@@ -13,7 +10,11 @@ namespace PolarisLog.WebApi
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args)
+                .Build()
+                .MigrateDatabase<ApplicationDbContext>()
+                .MigrateDatabase<Context>()
+                .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
