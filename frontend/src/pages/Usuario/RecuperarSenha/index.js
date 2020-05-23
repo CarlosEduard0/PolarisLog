@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FiLogIn } from 'react-icons/fi';
+import { FiArrowLeft } from 'react-icons/fi';
 
-import api from '../../services/api';
+import api from '../../../services/api';
 import './styles.css';
 
-export default function Login() {
+export default function RecuperarSenha(props) {
   const [erros, setErros] = useState([]);
-  const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+
   const history = useHistory();
 
-  async function handleLogin(e) {
+  const query = new URLSearchParams(props.location.search);
+  const token = query.get('token');
+  const email = query.get('email');
+
+  async function handleRecuperarSenha(e) {
     e.preventDefault();
     try {
-      const response = await api.post('/usuarios/logar', { email, senha });
+      const response = await api.post('/usuarios/recuperarsenha', {
+        token,
+        email,
+        senha,
+      });
 
       localStorage.setItem('token', response.data.token);
 
@@ -30,31 +38,26 @@ export default function Login() {
     <div className="logon-container">
       <section className="form">
         {/* <img src={logoImg} alt="Be The Hero" /> */}
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleRecuperarSenha}>
           <div>
             {erros.map((error, i) => (
               <li key={i}>{error}</li>
             ))}
           </div>
-          <h1>Faça seu logon</h1>
-          <input
-            type="email"
-            placeholder="E-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <h1>Trocar senha</h1>
+          <input type="email" value={email} disabled />
           <input
             type="password"
-            placeholder="Senha"
+            placeholder="Nova senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
           <button className="button" type="submit">
-            Entrar
+            Trocar senha
           </button>
-          <Link className="back-link" to="/cadastrar">
-            <FiLogIn size={16} color="#E02041" />
-            Não tenho cadastro
+          <Link className="back-link" to="/">
+            <FiArrowLeft size={16} color="#E02041" />
+            Voltar para o login
           </Link>
         </form>
       </section>
