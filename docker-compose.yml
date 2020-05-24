@@ -4,7 +4,7 @@ services:
   polarislog:
     build: ./backend
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - 5000:80
     depends_on:
