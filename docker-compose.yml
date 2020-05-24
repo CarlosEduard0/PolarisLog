@@ -1,7 +1,19 @@
 version: '3.7'
 
 services:
-  polarislog:
+  polarislog-frontend:
+    build:
+      context: ./frontend
+      args:
+        APP_API_URL: http://localhost:5000
+    environment:
+      - PORT=3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - polarislog-api
+
+  polarislog-api:
     build: ./backend
     env_file:
       - ./backend/.env
@@ -13,7 +25,7 @@ services:
   postgres:
     image: postgres:alpine
     env_file:
-      - .env
+      - ./backend/.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
