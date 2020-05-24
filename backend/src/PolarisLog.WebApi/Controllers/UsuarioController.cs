@@ -97,7 +97,7 @@ namespace PolarisLog.WebApi.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
             var applicationUrl = _configuration.GetSection("ApplicationUrl").Value;
             await _emailService.SendAsync(applicationUser.Email, "PolarisLog - Recuperar senha",
-                $"Para trocar sua senha <a href=\"{applicationUrl}/RecuperarSenha?token={token}\">clique aqui</a>",
+                $"Para trocar sua senha <a href=\"{applicationUrl}/RecuperarSenha?email={applicationUser.Email}&token={token}\">clique aqui</a>",
                 true);
             return Ok(new[] {"Foi enviado um email com as instruções para recuperar a senha"});
         }
