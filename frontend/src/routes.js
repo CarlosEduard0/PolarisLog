@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import CadastrarUsuario from './pages/Usuario/CadastrarUsuario';
 import Dashboard from './pages/Dashboard';
 import CadastrarLog from './pages/Log/CadastrarLog';
+import EsqueciSenha from './pages/Usuario/EsqueciSenha';
 import RecuperarSenha from './pages/Usuario/RecuperarSenha';
 
 export default function Routes() {
@@ -13,6 +14,7 @@ export default function Routes() {
       <Switch>
         <Route path="/" exact component={Login} />
         <Route path="/cadastrar" component={CadastrarUsuario} />
+        <Route path="/esquecisenha" component={EsqueciSenha} />
         <Route path="/recuperarsenha" component={RecuperarSenha} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/cadastrarlog" component={CadastrarLog} />

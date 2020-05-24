@@ -52,6 +52,9 @@ export default function Login() {
           <button className="button" type="submit">
             Entrar
           </button>
+          <Link className="back-link" to="/esquecisenha">
+            Esqueci a senha
+          </Link>
           <Link className="back-link" to="/cadastrar">
             <FiLogIn size={16} color="#E02041" />
             Não tenho cadastro
