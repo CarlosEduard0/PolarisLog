@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using PolarisLog.Domain.CommandSide.CommandHandlers;
 using PolarisLog.Domain.CommandSide.Commands.Log;
-using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Interfaces;
 using PolarisLog.Domain.Notifications;
 using PolarisLog.Domain.QuerySide.Queries.Ambiente;
@@ -147,11 +146,11 @@ namespace PolarisLog.Tests.Domain.CommandSide
 
             commandNull.ValidationResult.IsValid.Should().Be(false);
             commandNull.ValidationResult.Errors.Should()
-                .Contain(error => error.ErrorMessage == "Título deve possuir conteúdo");
+                .Contain(error => error.ErrorMessage == "'Título' deve ser informado.");
 
             commandVazio.ValidationResult.IsValid.Should().Be(false);
             commandVazio.ValidationResult.Errors.Should()
-                .Contain(error => error.ErrorMessage == "Título deve possuir conteúdo");
+                .Contain(error => error.ErrorMessage == "'Título' deve ser informado.");
         }
         
         [Fact]
@@ -166,11 +165,11 @@ namespace PolarisLog.Tests.Domain.CommandSide
 
             commandNull.ValidationResult.IsValid.Should().Be(false);
             commandNull.ValidationResult.Errors.Should()
-                .Contain(error => error.ErrorMessage == "Descrição deve possuir conteúdo");
+                .Contain(error => error.ErrorMessage == "'Descrição' deve ser informado.");
 
             commandVazio.ValidationResult.IsValid.Should().Be(false);
             commandVazio.ValidationResult.Errors.Should()
-                .Contain(error => error.ErrorMessage == "Descrição deve possuir conteúdo");
+                .Contain(error => error.ErrorMessage == "'Descrição' deve ser informado.");
         }
         
         [Fact]
@@ -185,11 +184,11 @@ namespace PolarisLog.Tests.Domain.CommandSide
 
             commandNull.ValidationResult.IsValid.Should().Be(false);
             commandNull.ValidationResult.Errors.Should()
-                .Contain(error => error.ErrorMessage == "Origem deve possuir conteúdo");
+                .Contain(error => error.ErrorMessage == "'Origem' deve ser informado.");
 
             commandVazio.ValidationResult.IsValid.Should().Be(false);
             commandVazio.ValidationResult.Errors.Should()
-                .Contain(error => error.ErrorMessage == "Origem deve possuir conteúdo");
+                .Contain(error => error.ErrorMessage == "'Origem' deve ser informado.");
         }
 
         [Fact]
