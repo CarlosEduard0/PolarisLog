@@ -146,6 +146,8 @@ namespace PolarisLog.WebApi
                 .AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod());
+
+            app.UseRequestLocalization(options => options.SetDefaultCulture("pt-BR"));
             
             app.UseRouting();
 
