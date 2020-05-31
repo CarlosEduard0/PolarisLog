@@ -1,5 +1,4 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using PolarisLog.Domain.CommandSide.Commands.Log;
 
 namespace PolarisLog.Domain.CommandSide.Validations.Log
@@ -8,8 +7,7 @@ namespace PolarisLog.Domain.CommandSide.Validations.Log
     {
         public ArquivarLogCommandValidation()
         {
-            RuleFor(command => command.Id)
-                .NotEqual(Guid.Empty).WithMessage("Id deve possuir conteúdo");
+            RuleFor(command => command.Id).NotEmpty();
         }
     }
 }

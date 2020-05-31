@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -42,12 +41,6 @@ namespace PolarisLog.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Adicionar(CadastrarUsuarioPayload cadastrarUsuarioPayload)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState.Values.SelectMany(entry => entry.Errors)
-                    .Select(error => error.ErrorMessage));
-            }
-
             var applicationUser = _mapper.Map<ApplicationUser>(cadastrarUsuarioPayload);
 
             var result = await _userManager.CreateAsync(applicationUser, cadastrarUsuarioPayload.Senha);
@@ -62,12 +55,6 @@ namespace PolarisLog.WebApi.Controllers
         [HttpPost("Logar")]
         public async Task<IActionResult> Logar(LogarPayload logarPayload)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState.Values.SelectMany(entry => entry.Errors)
-                    .Select(error => error.ErrorMessage));
-            }
-
             var result = await _signInManager.PasswordSignInAsync(logarPayload.Email, logarPayload.Senha, false, true);
             if (!result.Succeeded)
             {
@@ -82,12 +69,6 @@ namespace PolarisLog.WebApi.Controllers
         [HttpPost("RecuperarSenha")]
         public async Task<IActionResult> RecuperarSenha(RecuperarSenhaPayload recuperarSenhaPayload)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState.Values.SelectMany(entry => entry.Errors)
-                    .Select(error => error.ErrorMessage));
-            }
-
             var applicationUser = await _userManager.FindByEmailAsync(recuperarSenhaPayload.Email);
             if (applicationUser == null)
             {
@@ -105,12 +86,6 @@ namespace PolarisLog.WebApi.Controllers
         [HttpPost("ResetarSenha")]
         public async Task<IActionResult> ResetarSenha(ResetarSenhaPayload resetarSenhaPayload)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState.Values.SelectMany(entry => entry.Errors)
-                    .Select(error => error.ErrorMessage));
-            }
-
             var applicationUser = await _userManager.FindByEmailAsync(resetarSenhaPayload.Email);
             if (applicationUser == null)
             {

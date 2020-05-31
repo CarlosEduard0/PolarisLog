@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PolarisLog.Application.Interfaces;
 using PolarisLog.Application.ViewModels;
-using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Notifications;
 using PolarisLog.WebApi.Payloads.Log;
 
@@ -56,6 +55,12 @@ namespace PolarisLog.WebApi.Controllers
             var logViewModel = _mapper.Map<LogViewModel>(cadastrarLogPayload);
             var usuarioId = (User.Identity as ClaimsIdentity)?.FindFirst(ClaimTypes.NameIdentifier).Value;
             logViewModel.UsuarioId = Guid.Parse(usuarioId);
+            
+            Guid.TryParse(cadastrarLogPayload.AmbienteId, out var ambienteId);
+            logViewModel.AmbienteId = ambienteId;
+
+            Guid.TryParse(cadastrarLogPayload.NivelId, out var nivelId);
+            logViewModel.NivelId = nivelId;
             
             var id = await _logAppService.Adicionar(logViewModel);
             if (_notificationHandler.TemNotificacao())

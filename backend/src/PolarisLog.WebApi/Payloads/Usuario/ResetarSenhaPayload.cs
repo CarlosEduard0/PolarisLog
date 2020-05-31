@@ -1,17 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace PolarisLog.WebApi.Payloads.Usuario
 {
     public class ResetarSenhaPayload
     {
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [EmailAddress(ErrorMessage = "O campo {0} é inválido")]
+        [Required(ErrorMessage = "'{0}' deve ser informado")]
+        [EmailAddress(ErrorMessage = "'{0}' inválido")]
         public string Email { get; set; }
         
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Required(ErrorMessage = "'{0}' deve ser informada")]
         public string Senha { get;set; }
         
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Required(ErrorMessage = "'{0}' deve ser informado")]
         public string Token { get;set; }
     }
 }

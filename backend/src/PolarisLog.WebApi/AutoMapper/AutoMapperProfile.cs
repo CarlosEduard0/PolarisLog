@@ -12,10 +12,13 @@ namespace PolarisLog.WebApi.AutoMapper
         public AutoMapperProfile()
         {
             CreateMap<CadastrarUsuarioPayload, ApplicationUser>()
-                .ForMember(app => app.UserName, mf => mf.MapFrom(pay => pay.Email))
-                .ForMember(app => app.Email, mf => mf.MapFrom(pay => pay.Email));
+                .ForMember(usuario => usuario.UserName, mf => mf.MapFrom(pay => pay.Email));
 
-            CreateMap<CadastrarLogPayload, LogViewModel>();
+            CreateMap<CadastrarLogPayload, LogViewModel>()
+                .ForMember(viewModel => viewModel.UsuarioId, opts => opts.Ignore())
+                .ForMember(viewModel => viewModel.AmbienteId, opts => opts.Ignore())
+                .ForMember(viewModel => viewModel.NivelId, opts => opts.Ignore());
+            
             CreateMap<QueryPayload, QueryViewModel>();
             CreateMap<LogQueryPayload, LogQueryViewModel>();
         }
