@@ -9,6 +9,7 @@ namespace PolarisLog.WebApi.Payloads.Usuario
         public string Nome { get; set; }
         
         [Required(ErrorMessage = "'{0}' deve ser informado")]
+        [EmailAddress(ErrorMessage = "'{0}' inválido")]
         public string Email { get; set; }
         
         [Required(ErrorMessage = "'{0}' deve ser informada")]
@@ -16,7 +17,7 @@ namespace PolarisLog.WebApi.Payloads.Usuario
         
         [DisplayName("Senha Confirmação")]
         [Required(ErrorMessage = "'{0}' deve ser informada")]
-        [Compare("Senha", ErrorMessage = "As senhas não coincidem")]
+        [Compare("Senha", ErrorMessage = "Senhas não coincidem")]
         public string SenhaConfirmacao { get; set; }
     }
 }

@@ -55,7 +55,7 @@ namespace PolarisLog.WebApi.Controllers
         [HttpPost("Logar")]
         public async Task<IActionResult> Logar(LogarPayload logarPayload)
         {
-            var result = await _signInManager.PasswordSignInAsync(logarPayload.Email, logarPayload.Senha, false, true);
+            var result = await _signInManager.PasswordSignInAsync(logarPayload.Email, logarPayload.Senha, false, false);
             if (!result.Succeeded)
             {
                 return BadRequest(new[] {"Email ou senha inválidos"});
@@ -72,7 +72,7 @@ namespace PolarisLog.WebApi.Controllers
             var applicationUser = await _userManager.FindByEmailAsync(recuperarSenhaPayload.Email);
             if (applicationUser == null)
             {
-                return BadRequest(new[] {"Nenhum usuário cadastrado este email"});
+                return BadRequest(new[] {"Nenhum usuário cadastrado com este email"});
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
