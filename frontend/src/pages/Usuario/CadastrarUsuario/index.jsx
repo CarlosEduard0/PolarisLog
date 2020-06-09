@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FiArrowLeft } from 'react-icons/fi';
+import { TiChevronLeft } from 'react-icons/ti';
 
 import api from '../../../services/api';
 import './styles.css';
-// import logoImg from '../../../assets/logo.svg';
+import logoImg from '../../../assets/logo.png';
 
 export default function CadastrarUsuario() {
-  const [erros, setErros] = useState([]);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [senhaConfirmacao, setSenhaConfirmacao] = useState('');
+  const [formEnviado, setFormEnviado] = useState(false);
+  const [erro, setErro] = useState('');
 
   const history = useHistory();
 
   async function handleCadastrar(e) {
     e.preventDefault();
+    setFormEnviado(true);
 
     const data = { nome, email, senha, senhaConfirmacao };
 
@@ -24,8 +26,8 @@ export default function CadastrarUsuario() {
       await api.post('/usuarios', data);
       history.push('/');
     } catch ({ response }) {
-      if (response.status === 400) {
-        setErros(response.data);
+      if (response.status === 400 && response.data[0].includes(email)) {
+        setErro(response.data[0]);
       }
     }
   }
@@ -34,50 +36,48 @@ export default function CadastrarUsuario() {
     <div className="register-container">
       <div className="content">
         <section>
-          {/* <img src={logoImg} alt="PolarisLog" /> */}
-          <div />
+          <img src={logoImg} alt="PolarisLog" />
 
-          <h1>Cadastro</h1>
-          <p>
-            Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem
-            os casos da sua ONG.
-          </p>
+          <p>Faça seu cadastro para ter acesso a plataforma</p>
 
           <Link className="back-link" to="/">
-            <FiArrowLeft size={16} color="#E02041" />
+            <TiChevronLeft size={20} color="#413E3E" />
             Já tenho cadastro
           </Link>
         </section>
 
         <form onSubmit={handleCadastrar}>
-          <div>
-            {erros.map((error, i) => (
-              <li key={i}>{error}</li>
-            ))}
-          </div>
+        {erro && <span>{erro}</span>}
           <input
             placeholder="Nome"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
           />
+          {formEnviado && !nome && <span>Campo obrigatório *</span>}
           <input
             type="email"
             placeholder="E-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {formEnviado && !email && <span>Campo obrigatório *</span>}
           <input
             type="password"
             placeholder="Senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
+          {formEnviado && !senha && <span>Campo obrigatório *</span>}
           <input
             type="password"
-            placeholder="Senha confirmação"
+            placeholder="Confirmação de senha"
             value={senhaConfirmacao}
             onChange={(e) => setSenhaConfirmacao(e.target.value)}
           />
+          {formEnviado && !senhaConfirmacao && <span>Campo obrigatório *</span>}
+          {formEnviado && senha !== senhaConfirmacao && (
+            <span>Senhas não coincidem *</span>
+          )}
           <button className="button" type="submit">
             Cadastrar
           </button>
