@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FiLogIn } from 'react-icons/fi';
 
 import api from '../../services/api';
 import './styles.css';
+import logoImg from '../../assets/logo.png';
 
 export default function Login() {
-  const [erros, setErros] = useState([]);
+  const [erro, setErro] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [formEnviado, setFormEnviado] = useState(false);
   const history = useHistory();
 
   async function handleLogin(e) {
     e.preventDefault();
+    setFormEnviado(true);
     try {
       const response = await api.post('/usuarios/logar', { email, senha });
 
@@ -20,8 +22,11 @@ export default function Login() {
 
       history.push('/dashboard');
     } catch ({ response }) {
-      if (response.status === 400) {
-        setErros(response.data);
+      if (
+        response.status === 400 &&
+        response.data[0].includes('Email ou senha')
+      ) {
+        setErro(response.data[0]);
       }
     }
   }
@@ -29,40 +34,34 @@ export default function Login() {
   return (
     <div className="logon-container">
       <section className="form">
-        {/* <img src={logoImg} alt="Be The Hero" /> */}
         <form onSubmit={handleLogin}>
-          <div>
-            {erros.map((error, i) => (
-              <li key={i}>{error}</li>
-            ))}
-          </div>
-          <h1>Faça seu logon</h1>
+          <img src={logoImg} alt="PolarisLog" width={350} />
+          {erro && <span>E-mail ou senha inválidos *</span>}
           <input
             type="email"
             placeholder="E-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {formEnviado && !email && <span>Campo obrigatório *</span>}
           <input
             type="password"
             placeholder="Senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
+          {formEnviado && !senha && <span>Campo obrigatório *</span>}
           <button className="button" type="submit">
             Entrar
           </button>
           <Link className="back-link" to="/esquecisenha">
-            Esqueci a senha
+            Esqueceu sua senha?
           </Link>
-          <Link className="back-link" to="/cadastrar">
-            <FiLogIn size={16} color="#E02041" />
-            Não tenho cadastro
+          <Link className="back-link cadastrar-link" to="/cadastrar">
+            Ainda não é cadastrado? Cadastrar
           </Link>
         </form>
       </section>
-
-      {/* <img src={heroesImg} alt="Heroes" /> */}
     </div>
   );
 }
