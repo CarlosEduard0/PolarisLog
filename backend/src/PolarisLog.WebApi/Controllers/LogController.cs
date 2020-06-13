@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -89,6 +89,18 @@ namespace PolarisLog.WebApi.Controllers
         {
             Guid.TryParse(id, out var guid);
             await _logAppService.Deletar(guid);
+            if (_notificationHandler.TemNotificacao())
+            {
+                return BadRequest(_notificationHandler.ObterNotificacoes());
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeletarPorIds([FromQuery] Guid[] ids)
+        {
+            await _logAppService.Deletar(ids);
             if (_notificationHandler.TemNotificacao())
             {
                 return BadRequest(_notificationHandler.ObterNotificacoes());

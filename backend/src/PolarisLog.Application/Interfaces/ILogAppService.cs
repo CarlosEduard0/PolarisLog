@@ -11,6 +11,6 @@ namespace PolarisLog.Application.Interfaces
         Task<PagedList<Log>> ObterTodos(LogQueryViewModel logQueryViewModel);
         Task<Guid> Adicionar(LogViewModel logViewModel);
         Task Arquivar(Guid id);
-        Task Deletar(Guid id);
+        Task Deletar(params Guid[] id);
     }
 }

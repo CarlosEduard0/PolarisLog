@@ -7,7 +7,7 @@ namespace PolarisLog.Domain.CommandSide.Validations.Log
     {
         public DeletarLogCommandValidation()
         {
-            RuleFor(command => command.Id).NotEmpty();
+            RuleFor(command => command.Ids).NotEmpty();
         }
     }
 }

@@ -42,9 +42,9 @@ namespace PolarisLog.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task Deletar(Guid id)
+        public async Task Deletar(params Guid[] ids)
         {
-            var command = new DeletarLogCommand(id);
+            var command = new DeletarLogCommand(ids);
             await _mediator.Send(command);
         }
     }

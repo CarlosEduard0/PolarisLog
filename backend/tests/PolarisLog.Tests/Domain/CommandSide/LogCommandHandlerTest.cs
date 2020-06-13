@@ -227,7 +227,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
 
             commandVazio.ValidationResult.IsValid.Should().Be(false);
             commandVazio.ValidationResult.Errors.Should()
-                .Contain(error => error.ErrorMessage == "Id deve possuir conteúdo");
+                .Contain(error => error.ErrorMessage == "'Id' deve ser informado.");
         }
 
         [Fact]
@@ -258,7 +258,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerDeletar_DeveInvalidarCommandQuandoIdForVazio()
         {
-            var commandVazio = new DeletarLogCommand(Guid.Empty);
+            var commandVazio = new DeletarLogCommand();
             var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
 
             await commandHandler.Handle(commandVazio, CancellationToken.None);
