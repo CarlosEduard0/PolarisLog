@@ -41,11 +41,6 @@ namespace PolarisLog.Infra.Repositories
             return await _context.Logs.Where(log => ids.Contains(log.Id)).ToArrayAsync();
         }
         
-        public async Task<Log> ObterPorId(Guid id)
-        {
-            return await _context.Logs.FindAsync(id);
-        }
-        
         public async Task<Log> Adicionar(Log log)
         {
             await _context.Logs.AddAsync(log);
@@ -53,9 +48,9 @@ namespace PolarisLog.Infra.Repositories
             return log;
         }
 
-        public async Task Atualizar(Log log)
+        public async Task Atualizar(params Log[] logs)
         {
-            _context.Logs.Update(log);
+            _context.Logs.UpdateRange(logs);
             await _context.SaveChangesAsync();
         }
 

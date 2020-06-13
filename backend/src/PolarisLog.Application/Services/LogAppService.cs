@@ -36,9 +36,9 @@ namespace PolarisLog.Application.Services
             return await _mediator.Send(command);
         }
 
-        public async Task Arquivar(Guid id)
+        public async Task Arquivar(params Guid[] ids)
         {
-            var command = new ArquivarLogCommand(id);
+            var command = new ArquivarLogCommand(ids);
             await _mediator.Send(command);
         }
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -71,11 +71,23 @@ namespace PolarisLog.WebApi.Controllers
             return Ok(new {id});
         }
 
-        [HttpPost("Arquivar/{id}")]
+        [HttpPut("Arquivar/{id}")]
         public async Task<IActionResult> Arquivar(string id)
         {
             Guid.TryParse(id, out var guid);
             await _logAppService.Arquivar(guid);
+            if (_notificationHandler.TemNotificacao())
+            {
+                return BadRequest(_notificationHandler.ObterNotificacoes());
+            }
+
+            return Ok();
+        }
+        
+        [HttpPut]
+        public async Task<IActionResult> ArquivarPorIds(Guid[] ids)
+        {
+            await _logAppService.Arquivar(ids);
             if (_notificationHandler.TemNotificacao())
             {
                 return BadRequest(_notificationHandler.ObterNotificacoes());

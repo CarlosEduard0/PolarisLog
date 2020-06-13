@@ -192,21 +192,6 @@ namespace PolarisLog.Tests.Domain.CommandSide
         }
 
         [Fact]
-        public async Task HandlerArquivar_DeveLancarNotificacaoQuandoLogJaEstiverArquivado()
-        {
-            var log = LogFactory.Create();
-            log.Arquivar();
-            var command = new ArquivarLogCommand(log.Id);
-            var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
-            await _context.Logs.AddAsync(log);
-            await _context.SaveChangesAsync();
-
-            await commandHandler.Handle(command, CancellationToken.None);
-            
-            _mediatorMock.Verify(mediator => mediator.Publish(It.IsAny<DomainNotification>(), CancellationToken.None));
-        }
-
-        [Fact]
         public async Task HandlerArquivar_DeveLancarNotificacaoQuandoLogNaoExistir()
         {
             var command = new ArquivarLogCommand(Guid.NewGuid());
@@ -220,14 +205,14 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerArquivar_DeveInvalidarCommandQuandoIdForVazio()
         {
-            var commandVazio = new ArquivarLogCommand(Guid.Empty);
+            var commandVazio = new ArquivarLogCommand();
             var commandHandler = new LogCommandHandler(_mediatorMock.Object, _logRepository);
 
             await commandHandler.Handle(commandVazio, CancellationToken.None);
 
             commandVazio.ValidationResult.IsValid.Should().Be(false);
             commandVazio.ValidationResult.Errors.Should()
-                .Contain(error => error.ErrorMessage == "'Id' deve ser informado.");
+                .Contain(error => error.ErrorMessage == "'Ids' deve ser informado.");
         }
 
         [Fact]
