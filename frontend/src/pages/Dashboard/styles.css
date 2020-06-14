@@ -1,0 +1,136 @@
+.dashboard-container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.dashboard-container header {
+  background-color: #BFE2CF;
+  padding: 25px 45px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-container header a {
+  color: #3F7657;
+  text-decoration: none;
+  font-size: 16px;
+
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-container header a svg {
+  margin-right: 4px;
+}
+
+section.filter {
+  width: 100%;
+  padding: 40px 20px 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+section.filter p {
+  word-wrap: break-word;
+}
+
+section.filter .fields {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+section.filter .fields select {
+  margin-right: 16px;
+  width: 100%;
+  border: 2px solid #736E6E;
+  border-radius: 5px;
+}
+
+section.filter .fields input {
+  width: 100%;
+  border: 2px solid #736E6E;
+  border-radius: 5px;
+}
+
+section.filter .buttons {
+  width: 100%;
+  margin-top: 30px;
+}
+
+section.filter .buttons button {
+  font-size: 16px;
+  line-height: 19px;
+  margin-left: 20px;
+  float: right;
+  text-decoration: none;
+  border: 0;
+  background-color: #FFF;
+
+  display: flex;
+  align-items: center;
+}
+
+section.filter .buttons button svg {
+  margin-right: 4px;
+}
+
+.dashboard-container table {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.dashboard-container table input {
+  transform: scale(1.4);
+}
+
+.dashboard-container table thead {
+  background-color: #BFE2CF;
+}
+
+.dashboard-container table thead tr {
+  font-size: 20px;
+  line-height: 23px;
+  height: 70px;
+}
+
+.dashboard-container table thead tr th.checkbox {
+  min-width: 50px;
+}
+
+.dashboard-container table tbody tr {
+  cursor: pointer;
+  height: 100px;
+  border-bottom: 1px solid #BFB8B8;
+  transition: 0.6s;
+}
+
+.dashboard-container table tbody tr td.descricao {
+  max-width: 200px;
+}
+
+.dashboard-container table tbody tr:hover {
+  background-color: #f2f2f2;
+}
+
+.dashboard-container table tbody tr td span {
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+
+.Error {
+  background-color: #FFA0A0;
+}
+
+.Debug {
+  background-color: #BDFFA0;
+}
+
+.Warning {
+  background-color: #FFDDAA;
+}
