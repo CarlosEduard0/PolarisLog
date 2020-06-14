@@ -211,8 +211,6 @@ namespace PolarisLog.Tests.Domain.CommandSide
             await commandHandler.Handle(commandVazio, CancellationToken.None);
 
             commandVazio.ValidationResult.IsValid.Should().Be(false);
-            commandVazio.ValidationResult.Errors.Should()
-                .Contain(error => error.ErrorMessage == "'Ids' deve ser informado.");
         }
 
         [Fact]
