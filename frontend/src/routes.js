@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import CadastrarUsuario from './pages/Usuario/CadastrarUsuario';
 import Dashboard from './pages/Dashboard';
 import CadastrarLog from './pages/Log/CadastrarLog';
+import VisualizarLog from './pages/Log/VisualizarLog';
 import EsqueciSenha from './pages/Usuario/EsqueciSenha';
 import RecuperarSenha from './pages/Usuario/RecuperarSenha';
 
@@ -18,6 +19,7 @@ export default function Routes() {
         <Route path="/recuperarsenha" component={RecuperarSenha} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/cadastrarlog" component={CadastrarLog} />
+        <Route path="/visualizarlog" component={VisualizarLog} />
       </Switch>
     </BrowserRouter>
   );

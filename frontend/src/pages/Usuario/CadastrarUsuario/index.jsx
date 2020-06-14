@@ -47,7 +47,7 @@ export default function CadastrarUsuario() {
         </section>
 
         <form onSubmit={handleCadastrar}>
-        {erro && <span>{erro}</span>}
+          {erro && <span>{erro}</span>}
           <input
             placeholder="Nome"
             value={nome}
