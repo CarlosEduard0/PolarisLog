@@ -1,4 +1,4 @@
-.logon-container {
+.forgot-password {
   width: 100%;
   max-width: 1120px;
   height: 100vh;
@@ -6,20 +6,46 @@
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-.logon-container section.form {
+.forgot-password section.form {
   width: 100%;
   max-width: 350px;
-  margin-right: 30px;
 }
 
-.logon-container section.form form {
-  margin-top: 100px;
+.forgot-password section.form form p {
+  font-size: 24px;
+  text-align: center;
 }
 
-.logon-container section.form form h1 {
+.forgot-password section.form form img {
+  margin-bottom: 39px;
+  max-width: 350px;
+}
+
+.forgot-password section.form form h1 {
   font-size: 32px;
   margin-bottom: 32px;
+}
+
+.forgot-password section.form form input {
+  border: 2px solid #3F7657;
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+
+.forgot-password section.form form span {
+  display: flex;
+  color: #FF5757;
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 3px;
+}
+
+.forgot-password section.form form .cadastrar-link {
+  margin-top: 50px;
+  justify-content: center;
+  font-size: 18px;
 }

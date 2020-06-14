@@ -24,8 +24,11 @@ namespace PolarisLog.Application.Services
             var query = new ObterTodosOsLogsQuery(
                 logQueryViewModel.PageNumber,
                 logQueryViewModel.PageSize,
+                logQueryViewModel.AmbienteId,
                 logQueryViewModel.Origem,
-                logQueryViewModel.Descricao);
+                logQueryViewModel.Descricao,
+                logQueryViewModel.Arquivado
+                );
             return await _mediator.Send(query);
         }
 
@@ -36,15 +39,15 @@ namespace PolarisLog.Application.Services
             return await _mediator.Send(command);
         }
 
-        public async Task Arquivar(Guid id)
+        public async Task Arquivar(params Guid[] ids)
         {
-            var command = new ArquivarLogCommand(id);
+            var command = new ArquivarLogCommand(ids);
             await _mediator.Send(command);
         }
 
-        public async Task Deletar(Guid id)
+        public async Task Deletar(params Guid[] ids)
         {
-            var command = new DeletarLogCommand(id);
+            var command = new DeletarLogCommand(ids);
             await _mediator.Send(command);
         }
     }

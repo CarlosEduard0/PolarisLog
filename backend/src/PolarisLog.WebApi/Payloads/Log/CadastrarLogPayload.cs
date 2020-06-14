@@ -1,23 +1,27 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace PolarisLog.WebApi.Payloads.Log
 {
     public class CadastrarLogPayload
     {
-        [Required(ErrorMessage = "O campo Ambiente é obrigatório")]
-        public Guid AmbienteId { get; set; }
+        [DisplayName("Ambiente")]
+        [Required(ErrorMessage = "'{0}' deve ser informado")]
+        public string AmbienteId { get; set; }
+
+        [DisplayName("Nível")]
+        [Required(ErrorMessage = "'{0}' deve ser informado")]
+        public string NivelId { get; set; }
         
-        [Required(ErrorMessage = "O campo Nível é obrigatório")]
-        public Guid NivelId { get; set; }
-        
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [DisplayName("Título")]
+        [Required(ErrorMessage = "'{0}' deve ser informado")]
         public string Titulo { get; set; }
         
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [DisplayName("Descrição")]
+        [Required(ErrorMessage = "'{0}' deve ser informada")]
         public string Descricao { get; set; }
         
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Required(ErrorMessage = "'{0}' deve ser informado")]
         public string Origem { get; set; }
     }
 }

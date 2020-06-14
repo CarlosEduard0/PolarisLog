@@ -7,11 +7,11 @@ namespace PolarisLog.Domain.CommandSide.Commands.Log
 {
     public class ArquivarLogCommand : Command<Unit>
     {
-        public Guid Id { get; }
+        public Guid[] Ids { get; }
 
-        public ArquivarLogCommand(Guid id)
+        public ArquivarLogCommand(params Guid[] ids)
         {
-            Id = id;
+            Ids = ids;
         }
 
         public override async Task<bool> EhValido()

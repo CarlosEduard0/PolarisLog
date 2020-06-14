@@ -12,9 +12,7 @@
 .register-container .content {
   width: 100%;
   padding: 96px;
-  background: #f0f0f5;
-  box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  height: 100vh;
 
   display: flex;
   justify-content: space-between;
@@ -24,6 +22,16 @@
 .register-container .content section {
   width: 100%;
   max-width: 380px;
+  height: 350px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.register-container .content section img {
+  width: 380px;
 }
 
 .register-container .content section h1 {
@@ -32,18 +40,34 @@
 }
 
 .register-container .content section p {
-  font-size: 18px;
-  color: #737380;
-  line-height: 32px;
+  font-size: 20px;
+  line-height: 28px;
+  color: #413E3E;
+  text-align: center;
+}
+
+.register-container .content section a {
+  width: 380px;
 }
 
 .register-container .content form {
   width: 100%;
-  max-width: 450px;
+  max-width: 350px;
 }
 
 .register-container .content form input {
+  border: 2px solid #3F7657;
+  box-sizing: border-box;
+  border-radius: 5px;
   margin-top: 8px;
+}
+
+.register-container .content form span {
+  display: flex;
+  color: #FF5757;
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 3px;
 }
 
 .register-container .content form .input-group {

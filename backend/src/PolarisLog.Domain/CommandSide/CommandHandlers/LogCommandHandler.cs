@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -59,21 +60,17 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
         {
             if (!await ValidarCommando(request)) return Unit.Value;
 
-            var log = await _logRepository.ObterPorId(request.Id);
-            if (log == null)
+            var logs = await _logRepository.ObterPorIds(request.Ids);
+            if (!logs.Any())
             {
                 await _mediator.Publish(new DomainNotification("log", "Log não encontrado"));
                 return Unit.Value;
             }
-
-            if (log.ArquivadoEm != null)
-            {
-                await _mediator.Publish(new DomainNotification("log", "Log já foi arquivado"));
-                return Unit.Value;
-            }
             
-            log.Arquivar();
-            await _logRepository.Atualizar(log);
+            var logsNaoArquivados = logs.Where(log => log.ArquivadoEm == null).ToList();
+            logsNaoArquivados.ForEach(log => log.Arquivar());
+            
+            await _logRepository.Atualizar(logsNaoArquivados.ToArray());
 
             return Unit.Value;
         }
@@ -83,14 +80,14 @@ namespace PolarisLog.Domain.CommandSide.CommandHandlers
         {
             if (!await ValidarCommando(request)) return Unit.Value;
             
-            var log = await _logRepository.ObterPorId(request.Id);
-            if (log == null)
+            var logs = await _logRepository.ObterPorIds(request.Ids);
+            if (!logs.Any())
             {
                 await _mediator.Publish(new DomainNotification("log", "Log não encontrado"));
                 return Unit.Value;
             }
             
-            await _logRepository.Deletar(log);
+            await _logRepository.Deletar(logs);
 
             return Unit.Value;
         }

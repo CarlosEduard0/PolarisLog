@@ -13,9 +13,9 @@ namespace PolarisLog.Domain.Interfaces
             int pageNumber,
             int pageSize,
             Expression<Func<Log, bool>> predicate = null);
-        Task<Log> ObterPorId(Guid id);
+        Task<Log[]> ObterPorIds(params Guid[] id);
         Task<Log> Adicionar(Log log);
-        Task Atualizar(Log log);
-        Task Deletar(Log log);
+        Task Atualizar(params Log[] logs);
+        Task Deletar(params Log[] logs);
     }
 }

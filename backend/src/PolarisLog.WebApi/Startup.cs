@@ -19,6 +19,7 @@ using PolarisLog.Infra;
 using PolarisLog.Infra.CrossCutting.Identity.Configuration;
 using PolarisLog.Infra.CrossCutting.Identity.Context;
 using PolarisLog.Infra.CrossCutting.Identity.Model;
+using PolarisLog.WebApi.Filters;
 using PolarisLog.WebApi.Setup;
 
 namespace PolarisLog.WebApi
@@ -43,7 +44,7 @@ namespace PolarisLog.WebApi
                 options.SuppressModelStateInvalidFilter = true;
             });
             
-            services.AddControllers();
+            services.AddControllers(options => options.Filters.Add<ValidationFilter>());
             services.AddMediatR(AppDomain.CurrentDomain.Load("PolarisLog.Domain"));
             services.RegisterServices();
             services.AddAutoMapper(typeof(Startup));
