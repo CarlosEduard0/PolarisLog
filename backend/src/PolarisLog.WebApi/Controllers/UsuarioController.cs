@@ -8,6 +8,7 @@ using NETCore.MailKit.Core;
 using PolarisLog.Infra.CrossCutting.Identity.Model;
 using PolarisLog.WebApi.Payloads.Usuario;
 using PolarisLog.WebApi.Services;
+using PolarisLog.WebApi.ViewModels;
 
 namespace PolarisLog.WebApi.Controllers
 {
@@ -63,7 +64,7 @@ namespace PolarisLog.WebApi.Controllers
 
             var user = await _userManager.FindByEmailAsync(logarPayload.Email);
             var token = _tokenService.GenerateToken(user.Id);
-            return Ok(new {token});
+            return Ok(new {AccessToken = token, Usuario = _mapper.Map<UsuarioViewModel>(user)});
         }
 
         [HttpPost("RecuperarSenha")]

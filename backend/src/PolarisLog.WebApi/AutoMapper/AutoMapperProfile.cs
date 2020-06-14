@@ -4,6 +4,7 @@ using PolarisLog.Infra.CrossCutting.Identity.Model;
 using PolarisLog.WebApi.Payloads;
 using PolarisLog.WebApi.Payloads.Log;
 using PolarisLog.WebApi.Payloads.Usuario;
+using PolarisLog.WebApi.ViewModels;
 
 namespace PolarisLog.WebApi.AutoMapper
 {
@@ -21,6 +22,8 @@ namespace PolarisLog.WebApi.AutoMapper
             
             CreateMap<QueryPayload, QueryViewModel>();
             CreateMap<LogQueryPayload, LogQueryViewModel>();
+
+            CreateMap<ApplicationUser, UsuarioViewModel>();
         }
     }
 }
