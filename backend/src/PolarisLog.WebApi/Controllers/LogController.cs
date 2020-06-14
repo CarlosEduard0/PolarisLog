@@ -85,9 +85,9 @@ namespace PolarisLog.WebApi.Controllers
         }
         
         [HttpPut]
-        public async Task<IActionResult> ArquivarPorIds(Guid[] ids)
+        public async Task<IActionResult> ArquivarPorIds(ArquivarLogPayload arquivarLogPayload)
         {
-            await _logAppService.Arquivar(ids);
+            await _logAppService.Arquivar(arquivarLogPayload.Ids);
             if (_notificationHandler.TemNotificacao())
             {
                 return BadRequest(_notificationHandler.ObterNotificacoes());

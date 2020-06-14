@@ -22,8 +22,10 @@ namespace PolarisLog.Domain.QuerySide.QueryHandlers
         {
             Expression<Func<Log, bool>> filtro = log =>
                 (log.Origem.Contains(request.Origem) || string.IsNullOrWhiteSpace(request.Origem)) &&
-                (log.Descricao.Contains(request.Descricao) || string.IsNullOrWhiteSpace(request.Descricao));
-            var result = _logRepository.ObterTodos(request.PageNumber, request.PageSize, filtro);
+                (log.Descricao.Contains(request.Descricao) || string.IsNullOrWhiteSpace(request.Descricao)) &&
+                (request.Arquivado.HasValue
+                    ? request.Arquivado.Value ? log.ArquivadoEm != null : log.ArquivadoEm == null
+                    : request.Arquivado == null);
             return Task.FromResult(_logRepository.ObterTodos(request.PageNumber, request.PageSize, filtro));
         }
     }

@@ -25,7 +25,9 @@ namespace PolarisLog.Application.Services
                 logQueryViewModel.PageNumber,
                 logQueryViewModel.PageSize,
                 logQueryViewModel.Origem,
-                logQueryViewModel.Descricao);
+                logQueryViewModel.Descricao,
+                logQueryViewModel.Arquivado
+                );
             return await _mediator.Send(query);
         }
 
