@@ -5,19 +5,19 @@ namespace PolarisLog.WebApi.Payloads.Usuario
 {
     public class CadastrarUsuarioPayload
     {
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Required(ErrorMessage = "'{0}' deve ser informado")]
         public string Nome { get; set; }
         
-        [DisplayName("E-mail")]
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Required(ErrorMessage = "'{0}' deve ser informado")]
+        [EmailAddress(ErrorMessage = "'{0}' inválido")]
         public string Email { get; set; }
         
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Required(ErrorMessage = "'{0}' deve ser informada")]
         public string Senha { get; set; }
         
         [DisplayName("Senha Confirmação")]
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [Compare("Senha", ErrorMessage = "As senhas não coincidem")]
+        [Required(ErrorMessage = "'{0}' deve ser informada")]
+        [Compare("Senha", ErrorMessage = "Senhas não coincidem")]
         public string SenhaConfirmacao { get; set; }
     }
 }

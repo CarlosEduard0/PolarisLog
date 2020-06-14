@@ -36,9 +36,9 @@ namespace PolarisLog.Infra.Repositories
             return PagedList<Log>.ToPagedList(query, pageNumber, pageSize);
         }
 
-        public async Task<Log> ObterPorId(Guid id)
+        public async Task<Log[]> ObterPorIds(params Guid[] ids)
         {
-            return await _context.Logs.FindAsync(id);
+            return await _context.Logs.Where(log => ids.Contains(log.Id)).ToArrayAsync();
         }
         
         public async Task<Log> Adicionar(Log log)
@@ -48,15 +48,15 @@ namespace PolarisLog.Infra.Repositories
             return log;
         }
 
-        public async Task Atualizar(Log log)
+        public async Task Atualizar(params Log[] logs)
         {
-            _context.Logs.Update(log);
+            _context.Logs.UpdateRange(logs);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Deletar(Log log)
+        public async Task Deletar(params Log[] logs)
         {
-            _context.Logs.Remove(log);
+            _context.Logs.RemoveRange(logs);
             await _context.SaveChangesAsync();
         }
     }

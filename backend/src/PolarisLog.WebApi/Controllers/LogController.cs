@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PolarisLog.Application.Interfaces;
 using PolarisLog.Application.ViewModels;
-using PolarisLog.Domain.Entities;
 using PolarisLog.Domain.Notifications;
 using PolarisLog.WebApi.Payloads.Log;
 
@@ -33,7 +32,12 @@ namespace PolarisLog.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> ObterTodos([FromQuery] LogQueryPayload logQueryPayload)
         {
-            var logs = await _logAppService.ObterTodos(_mapper.Map<LogQueryViewModel>(logQueryPayload));
+            var logQuery = _mapper.Map<LogQueryViewModel>(logQueryPayload);
+
+            Guid.TryParse(logQueryPayload.AmbienteId, out var ambienteId);
+            logQuery.AmbienteId = ambienteId;
+            
+            var logs = await _logAppService.ObterTodos(logQuery);
             
             var metadata = new
             {
@@ -57,6 +61,12 @@ namespace PolarisLog.WebApi.Controllers
             var usuarioId = (User.Identity as ClaimsIdentity)?.FindFirst(ClaimTypes.NameIdentifier).Value;
             logViewModel.UsuarioId = Guid.Parse(usuarioId);
             
+            Guid.TryParse(cadastrarLogPayload.AmbienteId, out var ambienteId);
+            logViewModel.AmbienteId = ambienteId;
+
+            Guid.TryParse(cadastrarLogPayload.NivelId, out var nivelId);
+            logViewModel.NivelId = nivelId;
+            
             var id = await _logAppService.Adicionar(logViewModel);
             if (_notificationHandler.TemNotificacao())
             {
@@ -66,11 +76,23 @@ namespace PolarisLog.WebApi.Controllers
             return Ok(new {id});
         }
 
-        [HttpPost("Arquivar/{id}")]
+        [HttpPut("Arquivar/{id}")]
         public async Task<IActionResult> Arquivar(string id)
         {
             Guid.TryParse(id, out var guid);
             await _logAppService.Arquivar(guid);
+            if (_notificationHandler.TemNotificacao())
+            {
+                return BadRequest(_notificationHandler.ObterNotificacoes());
+            }
+
+            return Ok();
+        }
+        
+        [HttpPut]
+        public async Task<IActionResult> ArquivarPorIds(ArquivarLogPayload arquivarLogPayload)
+        {
+            await _logAppService.Arquivar(arquivarLogPayload.Ids);
             if (_notificationHandler.TemNotificacao())
             {
                 return BadRequest(_notificationHandler.ObterNotificacoes());
@@ -84,6 +106,18 @@ namespace PolarisLog.WebApi.Controllers
         {
             Guid.TryParse(id, out var guid);
             await _logAppService.Deletar(guid);
+            if (_notificationHandler.TemNotificacao())
+            {
+                return BadRequest(_notificationHandler.ObterNotificacoes());
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeletarPorIds([FromQuery] Guid[] ids)
+        {
+            await _logAppService.Deletar(ids);
             if (_notificationHandler.TemNotificacao())
             {
                 return BadRequest(_notificationHandler.ObterNotificacoes());

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using PolarisLog.Domain.CommandSide.Validations.Log;
@@ -7,11 +8,11 @@ namespace PolarisLog.Domain.CommandSide.Commands.Log
 {
     public class DeletarLogCommand : Command<Unit>
     {
-        public Guid Id { get; }
+        public Guid[] Ids { get; }
 
-        public DeletarLogCommand(Guid id)
+        public DeletarLogCommand(params Guid[] ids)
         {
-            Id = id;
+            Ids = ids;
         }
 
         public override async Task<bool> EhValido()

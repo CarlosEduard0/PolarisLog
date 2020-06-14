@@ -14,9 +14,9 @@ namespace PolarisLog.Domain.Entities
         public DateTime? ArquivadoEm { get; private set; }
         public DateTime CadastradoEm { get; private set; }
         
-        public virtual Usuario Usuario { get; private set; }
-        public virtual Ambiente Ambiente { get; private set; }
-        public virtual Nivel Nivel { get; private set; }
+        public virtual Usuario Usuario { get; }
+        public virtual Ambiente Ambiente { get; }
+        public virtual Nivel Nivel { get; }
 
         public Log(Guid usuarioId, Guid ambienteId, Guid nivelId, string titulo, string descricao, string origem)
         {
