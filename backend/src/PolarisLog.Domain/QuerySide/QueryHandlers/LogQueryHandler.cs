@@ -21,6 +21,7 @@ namespace PolarisLog.Domain.QuerySide.QueryHandlers
         public Task<PagedList<Log>> Handle(ObterTodosOsLogsQuery request, CancellationToken cancellationToken)
         {
             Expression<Func<Log, bool>> filtro = log =>
+                (log.AmbienteId == request.AmbienteId  || request.AmbienteId == Guid.Empty) &&
                 (log.Origem.Contains(request.Origem) || string.IsNullOrWhiteSpace(request.Origem)) &&
                 (log.Descricao.Contains(request.Descricao) || string.IsNullOrWhiteSpace(request.Descricao)) &&
                 (request.Arquivado.HasValue

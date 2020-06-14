@@ -24,6 +24,7 @@ namespace PolarisLog.Application.Services
             var query = new ObterTodosOsLogsQuery(
                 logQueryViewModel.PageNumber,
                 logQueryViewModel.PageSize,
+                logQueryViewModel.AmbienteId,
                 logQueryViewModel.Origem,
                 logQueryViewModel.Descricao,
                 logQueryViewModel.Arquivado

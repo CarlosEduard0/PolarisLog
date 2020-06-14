@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PolarisLog.Domain.Entities;
@@ -34,7 +35,7 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
             await _context.AddRangeAsync(usuario, ambiente, nivel, log1, log2);
             await _context.SaveChangesAsync();
             
-            var query = new ObterTodosOsLogsQuery(1, 20, null, null, null);
+            var query = new ObterTodosOsLogsQuery(1, 20, Guid.Empty, null, null, null);
             var queryHandler = new LogQueryHandler(_logRepository);
 
             var logs = await queryHandler.Handle(query, CancellationToken.None);
