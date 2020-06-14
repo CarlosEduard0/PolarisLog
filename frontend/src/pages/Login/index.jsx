@@ -16,9 +16,10 @@ export default function Login() {
     e.preventDefault();
     setFormEnviado(true);
     try {
-      const response = await api.post('/usuarios/logar', { email, senha });
+      const { data } = await api.post('/usuarios/logar', { email, senha });
 
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('username', data.usuario.nome);
 
       history.push('/dashboard');
     } catch ({ response }) {
