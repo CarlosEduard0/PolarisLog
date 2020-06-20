@@ -1,12 +1,13 @@
-﻿using PolarisLog.Domain.Entities;
+﻿using Bogus;
+using PolarisLog.Domain.Entities;
 
 namespace PolarisLog.Tests.Helpers.Factories
 {
     public class AmbienteFactory
     {
-        public static Ambiente Create()
+        public static Ambiente GerarAmbiente()
         {
-            return new Ambiente("Dev");
+            return new Faker<Ambiente>("pt_BR").CustomInstantiator(faker => new Ambiente(faker.Lorem.Word()));
         }
     }
 }

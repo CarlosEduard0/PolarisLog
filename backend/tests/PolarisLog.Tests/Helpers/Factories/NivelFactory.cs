@@ -1,12 +1,13 @@
-﻿using PolarisLog.Domain.Entities;
+﻿using Bogus;
+using PolarisLog.Domain.Entities;
 
 namespace PolarisLog.Tests.Helpers.Factories
 {
     public class NivelFactory
     {
-        public static Nivel Create()
+        public static Nivel GerarNivel()
         {
-            return new Nivel("Debug");
+            return new Faker<Nivel>("pt_BR").CustomInstantiator(faker => new Nivel(faker.Lorem.Word()));
         }
     }
 }

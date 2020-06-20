@@ -26,7 +26,7 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
         [Fact]
         public async Task ObterPorId_DeveRetornarUsuarioQuandoForEncontradoNoBanco()
         {
-            var usuario = UsuarioFactory.Create();
+            var usuario = UsuarioFactory.GerarUsuario();
             await _context.Usuarios.AddAsync(usuario);
             await _context.SaveChangesAsync();
 
