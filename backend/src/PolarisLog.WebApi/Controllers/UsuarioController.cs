@@ -64,7 +64,7 @@ namespace PolarisLog.WebApi.Controllers
 
             var user = await _userManager.FindByEmailAsync(logarPayload.Email);
             var token = _tokenService.GenerateToken(user.Id);
-            return Ok(new {AccessToken = token, Usuario = _mapper.Map<UsuarioViewModel>(user)});
+            return Ok(new LogarViewModel {AccessToken = token, Usuario = _mapper.Map<UsuarioViewModel>(user)});
         }
 
         [HttpPost("RecuperarSenha")]
@@ -77,7 +77,7 @@ namespace PolarisLog.WebApi.Controllers
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
-            var applicationUrl = _configuration.GetSection("ApplicationUrl").Value;
+            var applicationUrl = _configuration.GetValue<string>("ApplicationUrl");
             await _emailService.SendAsync(applicationUser.Email, "PolarisLog - Recuperar senha",
                 $"Para trocar sua senha <a href=\"{applicationUrl}/RecuperarSenha?email={applicationUser.Email}&token={token}\">clique aqui</a>",
                 true);

@@ -26,8 +26,8 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
         [Fact]
         public async Task HandlerObterTodos_DeveRetornarTodosOsNivelsSalvosNoBanco()
         {
-            var nivel1 = NivelFactory.Create();
-            var nivel2 = NivelFactory.Create();
+            var nivel1 = NivelFactory.GerarNivel();
+            var nivel2 = NivelFactory.GerarNivel();
             await _context.Niveis.AddRangeAsync(nivel1, nivel2);
             await _context.SaveChangesAsync();
             
@@ -42,7 +42,7 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
         [Fact]
         public async Task ObterPorId_DeveRetornarNivelQuandoForEncontradoNoBanco()
         {
-            var nivel = NivelFactory.Create();
+            var nivel = NivelFactory.GerarNivel();
             await _context.Niveis.AddAsync(nivel);
             await _context.SaveChangesAsync();
 

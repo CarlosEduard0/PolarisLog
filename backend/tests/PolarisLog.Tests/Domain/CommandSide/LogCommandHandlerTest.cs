@@ -35,9 +35,9 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerAdicionar_DeveAdicionarLogComUsuarioAmbienteNivelTituloDescricaoEOrigem()
         {
-            var usuario = UsuarioFactory.Create();
-            var ambiente = AmbienteFactory.Create();
-            var nivel = NivelFactory.Create();
+            var usuario = UsuarioFactory.GerarUsuario();
+            var ambiente = AmbienteFactory.GerarAmbiente();
+            var nivel = NivelFactory.GerarNivel();
             var titulo = "título";
             var descricao = "descrição";
             var origem = "0.0.0.0";
@@ -89,7 +89,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerAdicionar_DeveLancarNotificacaoQuandoAmbienteNaoExistir()
         {
-            var usuario = UsuarioFactory.Create();
+            var usuario = UsuarioFactory.GerarUsuario();
             _mediatorMock
                 .Setup(mediator => mediator.Send(It.IsAny<ObterUsuarioPorIdQuery>(), CancellationToken.None))
                 .Returns(async () => await Task.Run(() => usuario));
@@ -105,8 +105,8 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerAdicionar_DeveLancarNotificacaoQuandoNivelNaoExistir()
         {
-            var usuario = UsuarioFactory.Create();
-            var ambiente = AmbienteFactory.Create();
+            var usuario = UsuarioFactory.GerarUsuario();
+            var ambiente = AmbienteFactory.GerarAmbiente();
             _mediatorMock
                 .Setup(mediator => mediator.Send(It.IsAny<ObterUsuarioPorIdQuery>(), CancellationToken.None))
                 .Returns(async () => await Task.Run(() => usuario));
@@ -179,7 +179,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerArquivar_DeveAtualizarCampoArquivadoEm()
         {
-            var log = LogFactory.Create();
+            var log = LogFactory.GerarLog();
             await _context.Logs.AddAsync(log);
             await _context.SaveChangesAsync();
             var command = new ArquivarLogCommand(log.Id);
@@ -216,7 +216,7 @@ namespace PolarisLog.Tests.Domain.CommandSide
         [Fact]
         public async Task HandlerDeletar_DeveDeletarLog()
         {
-            var log = LogFactory.Create();
+            var log = LogFactory.GerarLog();
             await _context.Logs.AddAsync(log);
             await _context.SaveChangesAsync();
             var command = new DeletarLogCommand(log.Id);

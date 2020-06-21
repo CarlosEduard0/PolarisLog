@@ -24,9 +24,9 @@ using PolarisLog.WebApi.Setup;
 
 namespace PolarisLog.WebApi
 {
-    public class Startup
+    public class StartupTest
     {
-        public Startup(IConfiguration configuration)
+        public StartupTest(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -36,8 +36,8 @@ namespace PolarisLog.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Context>(options => options.UseNpgsql(Configuration.GetConnectionString("PolarisLog")));
-            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PolarisLog")));
+            services.AddDbContext<Context>(options => options.UseInMemoryDatabase("PolarisLogTestingDB"));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("PolarisLogTestingDB"));
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
