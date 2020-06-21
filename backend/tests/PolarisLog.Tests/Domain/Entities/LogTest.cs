@@ -18,6 +18,7 @@ namespace PolarisLog.Tests.Domain.Entities
             var titulo = "título";
             var descricao = "descrição";
             var origem = "0.0.0.0";
+            
             var log = new Log(usuarioId, ambienteId, nivelId, titulo,descricao, origem);
             
             log.UsuarioId.Should().Be(usuarioId);
@@ -86,7 +87,7 @@ namespace PolarisLog.Tests.Domain.Entities
         [Fact]
         public void Arquivar_DeveAdicionarArquivadoEm()
         {
-            var log = LogFactory.Create();
+            var log = LogFactory.GerarLog();
             
             log.Arquivar();
 
@@ -96,8 +97,9 @@ namespace PolarisLog.Tests.Domain.Entities
         [Fact]
         public void Arquivar_DeveLancarExcecaoQuandoLogJaEstiverArquivado()
         {
-            var log = LogFactory.Create();
+            var log = LogFactory.GerarLog();
             log.Arquivar();
+            
             Action arquivar = () => log.Arquivar();
 
             arquivar.Should().Throw<DomainException>().WithMessage("Log já foi arquivado");

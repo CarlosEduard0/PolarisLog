@@ -26,8 +26,8 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
         [Fact]
         public async Task HandlerObterTodos_DeveRetornarTodosOsAmbientesSalvosNoBanco()
         {
-            var ambiente1 = AmbienteFactory.Create();
-            var ambiente2 = AmbienteFactory.Create();
+            var ambiente1 = AmbienteFactory.GerarAmbiente();
+            var ambiente2 = AmbienteFactory.GerarAmbiente();
             await _context.Ambientes.AddRangeAsync(ambiente1, ambiente2);
             await _context.SaveChangesAsync();
             
@@ -42,7 +42,7 @@ namespace PolarisLog.Tests.Domain.QuerySide.Queries
         [Fact]
         public async Task ObterPorId_DeveRetornarAmbienteQuandoForEncontradoNoBanco()
         {
-            var ambiente = AmbienteFactory.Create();
+            var ambiente = AmbienteFactory.GerarAmbiente();
             await _context.Ambientes.AddAsync(ambiente);
             await _context.SaveChangesAsync();
 

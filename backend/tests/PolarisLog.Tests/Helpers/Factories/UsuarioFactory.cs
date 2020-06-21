@@ -1,12 +1,14 @@
-﻿﻿using PolarisLog.Domain.Entities;
+﻿using Bogus;
+using PolarisLog.Domain.Entities;
 
 namespace PolarisLog.Tests.Helpers.Factories
 {
     public class UsuarioFactory
     {
-        public static Usuario Create()
+        public static Usuario GerarUsuario()
         {
-            return new Usuario("nome", "email@email.com");
+            return new Faker<Usuario>("pt_BR")
+                .CustomInstantiator(faker => new Usuario(faker.Name.FullName(), faker.Internet.Email()));
         }
     }
 }
