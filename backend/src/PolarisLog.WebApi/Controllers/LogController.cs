@@ -76,11 +76,10 @@ namespace PolarisLog.WebApi.Controllers
             return Ok(new {id});
         }
 
-        [HttpPut("Arquivar/{id}")]
-        public async Task<IActionResult> Arquivar(string id)
+        [HttpPut("Arquivar/{id:guid}")]
+        public async Task<IActionResult> Arquivar(Guid id)
         {
-            Guid.TryParse(id, out var guid);
-            await _logAppService.Arquivar(guid);
+            await _logAppService.Arquivar(id);
             if (_notificationHandler.TemNotificacao())
             {
                 return BadRequest(_notificationHandler.ObterNotificacoes());
@@ -101,11 +100,10 @@ namespace PolarisLog.WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Deletar(string id)
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Deletar(Guid id)
         {
-            Guid.TryParse(id, out var guid);
-            await _logAppService.Deletar(guid);
+            await _logAppService.Deletar(id);
             if (_notificationHandler.TemNotificacao())
             {
                 return BadRequest(_notificationHandler.ObterNotificacoes());
