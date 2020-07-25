@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using AspNetCore.Http.Extensions;
 using FluentAssertions;
@@ -61,6 +60,18 @@ namespace PolarisLog.Tests.Controllers
             };
 
             var response = await _polarisLogFixture.Client.PostAsJsonAsync("Logs", cadastrarLogPayload);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Arquivar_DeveRetornarSucessoQuandoLogExistir()
+        {
+            await _polarisLogFixture.RealizarLogin();
+            _polarisLogFixture.Client.AtribuirToken(_polarisLogFixture.AccessToken);
+            var result = await _polarisLogFixture.Client.GetAsync("Ambientes");
+            
+            var response = await _polarisLogFixture.Client.PutAsync($"Logs/Arquivar/{Guid.NewGuid().ToString()}", null);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }

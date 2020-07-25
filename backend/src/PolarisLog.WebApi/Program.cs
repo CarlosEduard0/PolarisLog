@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using PolarisLog.Infra;
@@ -18,14 +17,8 @@ namespace PolarisLog.WebApi
                 .Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-            
-            return Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>().UseUrls($"http://0.0.0.0:{port}");
-            });
-        }
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }
