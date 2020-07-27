@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
 import { TiChevronLeft } from 'react-icons/ti';
 
@@ -7,14 +7,20 @@ import './styles.css';
 import logoImg from '../../../assets/logo.png';
 
 export default function VisualizarLog({ location }) {
-  const { log } = location.state;
+  const { log } = location?.state;
+
+  function handleLogout() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('username');
+  }
+
   return (
     <div className="visualizar-container">
       <header>
         <Link to="/dashboard">
           <img src={logoImg} alt="PolarisLog" width={250} />
         </Link>
-        <Link to="/">
+        <Link to="/" onClick={handleLogout}>
           <FiLogOut size={20} color="#3F7657" />
           Sair
         </Link>
@@ -29,7 +35,8 @@ export default function VisualizarLog({ location }) {
       <section className="log">
         <header>
           <p>
-            {log.nivel.nome} no {log.origem} em {Intl.DateTimeFormat('pt-BR', {
+            {log.nivel.nome} no {log.origem} em{' '}
+            {Intl.DateTimeFormat('pt-BR', {
               year: 'numeric',
               month: 'numeric',
               day: 'numeric',
@@ -54,7 +61,7 @@ export default function VisualizarLog({ location }) {
           <div className="usuario">
             <span className={log.nivel.nome}>{log.nivel.nome}</span>
             <h3>Coletador por</h3>
-            <p>{log.usuario.nome}</p>
+            <p>Token do usuário {log.usuario.nome}</p>
           </div>
         </div>
       </section>

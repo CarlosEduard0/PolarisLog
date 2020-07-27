@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
 import { FaTrashAlt } from 'react-icons/fa';
 import { GoFileDirectory } from 'react-icons/go';
+import Swal from 'sweetalert2';
 
 import './styles.css';
 import logoImg from '../../assets/logo.png';
@@ -48,6 +49,11 @@ export default function Dashboard() {
     });
   }
 
+  function handleLogout() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('username');
+  }
+
   async function handleSelectEnvironment(environmentId) {
     await getLogs(environmentId);
   }
@@ -83,6 +89,7 @@ export default function Dashboard() {
 
     const logsFiltered = logs.filter((log) => !selectedLogs.includes(log.id));
     setLogs(logsFiltered);
+    Swal.fire('Sucesso', 'Logs arquivados com sucesso', 'success');
   }
 
   async function handleDelete() {
@@ -92,13 +99,14 @@ export default function Dashboard() {
 
     const logsFiltered = logs.filter((log) => !selectedLogs.includes(log.id));
     setLogs(logsFiltered);
+    Swal.fire('Sucesso', 'Logs deletados com sucesso', 'success');
   }
 
   return (
     <div className="dashboard-container">
       <header>
         <img src={logoImg} alt="PolarisLog" width={250} />
-        <Link to="/">
+        <Link to="/" onClick={handleLogout}>
           <FiLogOut size={20} color="#3F7657" />
           Sair
         </Link>
@@ -115,22 +123,11 @@ export default function Dashboard() {
             onChange={(event) => handleSelectEnvironment(event.target.value)}
           >
             {environments.map((environment) => (
-              <option key={environment.id} value={environment.id}>{environment.nome}</option>
+              <option key={environment.id} value={environment.id}>
+                {environment.nome}
+              </option>
             ))}
           </select>
-          <select name="ordernar" id="ordernar-select" defaultValue="">
-            <option value="" disabled>
-              Ordenar por
-            </option>
-            <option value="a2973498294">Nível</option>
-          </select>
-          <select name="buscar" id="buscar-select" defaultValue="">
-            <option value="" disabled>
-              Buscar por
-            </option>
-            <option value="a2973498294">Nível</option>
-          </select>
-          <input name="term" />
         </div>
         <div className="buttons">
           <button type="button" onClick={handleArchive}>
